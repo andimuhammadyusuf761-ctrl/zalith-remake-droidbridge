@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Aurora Version Selector (v3 GUI):
+    Frosted card with a violet hairline accent on the leading edge.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Soft drop shadow -->
+    <item android:top="2dp" android:left="1dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_12sdp" />
+            <solid android:color="#18000000" />
+        </shape>
+    </item>
+    <!-- Card body -->
+    <item android:bottom="2dp" android:right="1dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_12sdp" />
+            <gradient
+                android:type="linear"
+                android:angle="135"
+                android:startColor="@color/background_item"
+                android:endColor="@color/background_item_selected" />
+            <stroke
+                android:width="0.6dp"
+                android:color="@color/aurora_outline" />
+        </shape>
+    </item>
+    <!-- Leading violet accent strip (3dp wide, anchored to the left edge) -->
+    <item
+        android:width="3dp"
+        android:gravity="left|fill_vertical"
+        android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <corners
+                android:topLeftRadius="@dimen/_12sdp"
+                android:bottomLeftRadius="@dimen/_12sdp"
+                android:topRightRadius="0dp"
+                android:bottomRightRadius="0dp" />
+            <solid android:color="@color/aurora_violet" />
+        </shape>
+    </item>
+</layer-list>

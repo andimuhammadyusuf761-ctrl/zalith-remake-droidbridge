@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Aurora Dialog (v3 GUI):
+    Frosted dialog with violet hairline + crisp drop shadow.
+-->
+<inset xmlns:android="http://schemas.android.com/apk/res/android">
+    <layer-list>
+        <!-- Drop shadow -->
+        <item android:top="5dp" android:left="3dp">
+            <shape android:shape="rectangle">
+                <corners android:radius="@dimen/_18sdp" />
+                <solid android:color="#33000000" />
+            </shape>
+        </item>
+        <!-- Body -->
+        <item android:bottom="5dp" android:right="3dp">
+            <shape android:shape="rectangle">
+                <corners android:radius="@dimen/_18sdp" />
+                <solid android:color="@color/dialog_background" />
+                <stroke
+                    android:width="0.6dp"
+                    android:color="@color/aurora_violet" />
+            </shape>
+        </item>
+        <!-- Top inner sheen -->
+        <item android:bottom="5dp" android:right="3dp">
+            <inset android:insetBottom="65%">
+                <shape android:shape="rectangle">
+                    <corners
+                        android:topLeftRadius="@dimen/_18sdp"
+                        android:topRightRadius="@dimen/_18sdp"
+                        android:bottomLeftRadius="0dp"
+                        android:bottomRightRadius="0dp" />
+                    <gradient
+                        android:startColor="#1FA78BFF"
+                        android:endColor="#00FFFFFF"
+                        android:angle="270" />
+                </shape>
+            </inset>
+        </item>
+    </layer-list>
+</inset>

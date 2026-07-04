@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Aurora Menu Item (v3 GUI):
+    Cleaner glassmorphism row with a violet ripple, hairline outline, and soft top sheen.
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#447C5CFF">
+    <item>
+        <layer-list>
+            <!-- Soft drop shadow -->
+            <item android:top="2dp" android:left="1dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="@dimen/_14sdp" />
+                    <solid android:color="#14000000" />
+                </shape>
+            </item>
+            <!-- Main row body -->
+            <item android:bottom="2dp" android:right="1dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="@dimen/_14sdp" />
+                    <solid android:color="@color/background_item" />
+                    <stroke
+                        android:width="0.6dp"
+                        android:color="@color/aurora_outline" />
+                </shape>
+            </item>
+            <!-- Top sheen for glassy depth -->
+            <item android:bottom="2dp" android:right="1dp">
+                <inset android:insetBottom="60%">
+                    <shape android:shape="rectangle">
+                        <corners
+                            android:topLeftRadius="@dimen/_14sdp"
+                            android:topRightRadius="@dimen/_14sdp"
+                            android:bottomLeftRadius="0dp"
+                            android:bottomRightRadius="0dp" />
+                        <gradient
+                            android:startColor="#26FFFFFF"
+                            android:endColor="#00FFFFFF"
+                            android:angle="270" />
+                    </shape>
+                </inset>
+            </item>
+        </layer-list>
+    </item>
+</ripple>

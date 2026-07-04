@@ -1,0 +1,38 @@
+# Zalith Remake — Android-optimized defaults for Minecraft 1.8–1.16
+# Written once to a clean new instance only.
+# Keys match vanilla Java Edition options.txt for this era (verified against 1.12.2 and 1.16.5).
+# Note: graphicsMode (Fast/Fancy/Fabulous) was added in 1.16; fancyGraphics:false covers 1.8-1.15.
+
+renderDistance:8
+fancyGraphics:false
+graphicsMode:0
+ao:0
+particles:2
+clouds:false
+entityShadows:false
+useVbo:true
+
+maxFps:120
+enableVsync:false
+
+gamma:1.0
+guiScale:0
+chatScale:1.0
+chatWidth:1.0
+chatHeightFocused:1.0
+chatHeightUnfocused:0.44366195
+narrator:0
+
+masterVolume:1.0
+musicVolume:1.0
+recordVolume:1.0
+weatherVolume:1.0
+blockVolume:1.0
+hostileVolume:1.0
+neutralVolume:1.0
+playerVolume:1.0
+ambientVolume:1.0
+
+autoJump:false
+skipMultiplayerWarning:true
+tutorialStep:none

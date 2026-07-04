@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Head (square) -->
+    <path
+        android:fillColor="#FF8B6432"
+        android:pathData="M12,4 L36,4 L36,28 L12,28 Z" />
+    <!-- Left eye white -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M16,12 L22,12 L22,18 L16,18 Z" />
+    <!-- Right eye white -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M26,12 L32,12 L32,18 L26,18 Z" />
+    <!-- Left pupil -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M18,13 L21,13 L21,17 L18,17 Z" />
+    <!-- Right pupil -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M27,13 L31,13 L31,17 L27,17 Z" />
+    <!-- Body -->
+    <path
+        android:fillColor="#FF555555"
+        android:pathData="M8,30 L40,30 L40,48 L8,48 Z" />
+</vector>

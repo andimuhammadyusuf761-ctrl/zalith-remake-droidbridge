@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#600D9488">
+    <item>
+        <layer-list>
+            <!-- Bottom shadow for raised 3D effect -->
+            <item android:top="3dp" android:left="2dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="@dimen/_14sdp" />
+                    <solid android:color="#40064E3B" />
+                </shape>
+            </item>
+            <!-- Main button body with gradient -->
+            <item android:bottom="3dp" android:right="2dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="@dimen/_14sdp" />
+                    <gradient
+                        android:startColor="#14B8A6"
+                        android:centerColor="#0F9688"
+                        android:endColor="#0D7C6B"
+                        android:angle="135" />
+                </shape>
+            </item>
+            <!-- Top glass shine -->
+            <item android:bottom="3dp" android:right="2dp">
+                <inset android:insetBottom="50%">
+                    <shape android:shape="rectangle">
+                        <corners
+                            android:topLeftRadius="@dimen/_14sdp"
+                            android:topRightRadius="@dimen/_14sdp"
+                            android:bottomLeftRadius="0dp"
+                            android:bottomRightRadius="0dp" />
+                        <gradient
+                            android:startColor="#30FFFFFF"
+                            android:endColor="#00FFFFFF"
+                            android:angle="270" />
+                    </shape>
+                </inset>
+            </item>
+        </layer-list>
+    </item>
+</ripple>

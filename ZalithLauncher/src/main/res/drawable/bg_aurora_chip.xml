@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Aurora Chip (v3 GUI):
+    Pill-shaped status chip used for the FPS Boost profile indicator.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Soft outer glow -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="100dp" />
+            <solid android:color="#337C5CFF" />
+        </shape>
+    </item>
+    <!-- Body -->
+    <item
+        android:top="1dp"
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="100dp" />
+            <gradient
+                android:type="linear"
+                android:angle="135"
+                android:startColor="@color/aurora_violet"
+                android:endColor="@color/aurora_cyan" />
+            <stroke
+                android:width="0.6dp"
+                android:color="#55FFFFFF" />
+        </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,12 @@
+/.gradle
+/build
+/*/build
+local.properties
+.idea/
+.vscode/
+.project
+.settings/
+/curseforge_key.txt
+/ZalithLauncher/.cxx/
+/ZalithLauncher/src/main/assets/components/lwjgl3/
+/ZalithLauncher/release/

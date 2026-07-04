@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 3D shadow -->
+    <item android:top="3dp" android:left="2dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_12sdp" />
+            <solid android:color="#20000000" />
+        </shape>
+    </item>
+    <!-- Main body -->
+    <item android:bottom="3dp" android:right="2dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_12sdp" />
+            <solid android:color="@color/dialog_background" />
+            <stroke
+                android:width="0.5dp"
+                android:color="#12FFFFFF" />
+        </shape>
+    </item>
+    <!-- Glass highlight -->
+    <item android:bottom="3dp" android:right="2dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_12sdp" />
+            <gradient
+                android:startColor="#10FFFFFF"
+                android:endColor="#00000000"
+                android:angle="270" />
+        </shape>
+    </item>
+</layer-list>

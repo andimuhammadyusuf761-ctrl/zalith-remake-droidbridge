@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#4014B8A6">
+    <item>
+        <layer-list>
+            <!-- Drop shadow for 3D lift -->
+            <item android:top="2dp" android:left="1dp" android:right="0dp" android:bottom="0dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="@dimen/_12sdp" />
+                    <solid android:color="#12000000" />
+                </shape>
+            </item>
+            <!-- Main card body -->
+            <item android:bottom="2dp" android:right="1dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="@dimen/_12sdp" />
+                    <solid android:color="@color/background_item" />
+                    <stroke
+                        android:width="0.5dp"
+                        android:color="#15FFFFFF" />
+                </shape>
+            </item>
+            <!-- Top shine for 3D depth -->
+            <item android:bottom="2dp" android:right="1dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="@dimen/_12sdp" />
+                    <gradient
+                        android:startColor="#12FFFFFF"
+                        android:centerColor="#06FFFFFF"
+                        android:endColor="#00000000"
+                        android:angle="270" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</ripple>

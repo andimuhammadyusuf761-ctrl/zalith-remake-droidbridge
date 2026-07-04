@@ -1,0 +1,8 @@
+# Zalith Remake — Android-optimized defaults for Minecraft Beta/Alpha/Classic
+# Very conservative: these old versions have many fewer options keys.
+
+renderDistance:3
+fancyGraphics:false
+ao:0
+maxFps:120
+gamma:1.0

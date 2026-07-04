@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Pressed: shadow shrinks (button "sinks") -->
+    <item android:top="1dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_10sdp" />
+            <solid android:color="#15000000" />
+        </shape>
+    </item>
+    <item android:bottom="1dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_10sdp" />
+            <solid android:color="@color/button_background_selected" />
+            <stroke
+                android:width="0.8dp"
+                android:color="@color/aurora_violet" />
+        </shape>
+    </item>
+</layer-list>

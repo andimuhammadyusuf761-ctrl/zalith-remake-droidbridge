@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Aurora ambient glow (v3 GUI):
+    Larger, softer radial halo in violet/cyan used behind the play button
+    and other focal areas.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:type="radial"
+        android:gradientRadius="160dp"
+        android:startColor="#557C5CFF"
+        android:centerColor="#2222D3EE"
+        android:endColor="#00FFFFFF" />
+    <size
+        android:width="240dp"
+        android:height="240dp" />
+</shape>

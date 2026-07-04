@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Drop shadow -->
+    <item android:top="2dp" android:left="1dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_10sdp" />
+            <solid android:color="#22000000" />
+        </shape>
+    </item>
+    <!-- Body -->
+    <item android:bottom="2dp" android:right="1dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_10sdp" />
+            <solid android:color="@color/button_background" />
+            <stroke
+                android:width="0.6dp"
+                android:color="@color/aurora_outline" />
+        </shape>
+    </item>
+    <!-- Glass shine -->
+    <item android:bottom="2dp" android:right="1dp">
+        <inset android:insetBottom="55%">
+            <shape android:shape="rectangle">
+                <corners
+                    android:topLeftRadius="@dimen/_10sdp"
+                    android:topRightRadius="@dimen/_10sdp"
+                    android:bottomLeftRadius="0dp"
+                    android:bottomRightRadius="0dp" />
+                <gradient
+                    android:startColor="#22FFFFFF"
+                    android:endColor="#00FFFFFF"
+                    android:angle="270" />
+            </shape>
+        </inset>
+    </item>
+</layer-list>

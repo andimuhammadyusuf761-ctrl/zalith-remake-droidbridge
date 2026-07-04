@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Aurora Section Card (v3 GUI):
+    Used as a wrapper around grouped menu items, mimicking iOS-style
+    grouped lists with a frosted background and subtle outline.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Soft outer shadow -->
+    <item android:top="3dp" android:left="2dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_16sdp" />
+            <solid android:color="#18000000" />
+        </shape>
+    </item>
+    <!-- Body -->
+    <item android:bottom="3dp" android:right="2dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_16sdp" />
+            <solid android:color="@color/menu_overlay" />
+            <stroke
+                android:width="0.6dp"
+                android:color="@color/aurora_outline" />
+        </shape>
+    </item>
+    <!-- Subtle gradient sheen across the top -->
+    <item android:bottom="3dp" android:right="2dp">
+        <inset android:insetBottom="70%">
+            <shape android:shape="rectangle">
+                <corners
+                    android:topLeftRadius="@dimen/_16sdp"
+                    android:topRightRadius="@dimen/_16sdp"
+                    android:bottomLeftRadius="0dp"
+                    android:bottomRightRadius="0dp" />
+                <gradient
+                    android:startColor="#1FA78BFF"
+                    android:endColor="#0022D3EE"
+                    android:angle="270" />
+            </shape>
+        </inset>
+    </item>
+</layer-list>

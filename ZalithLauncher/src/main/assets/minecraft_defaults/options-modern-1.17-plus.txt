@@ -1,0 +1,57 @@
+# Zalith Remake — Android-optimized defaults for Minecraft 1.17+
+# Written once to a clean new instance only. Minecraft rewrites this file freely after first run.
+# Keys and value formats match vanilla Java Edition options.txt exactly (verified against 1.20.x).
+
+# Graphics — "Fast" preset is the right starting point on mobile GPUs
+graphicsMode:0
+ao:true
+particles:2
+clouds:false
+entityShadows:false
+entityDistanceScaling:0.75
+biomeBlendRadius:2
+
+# Frame rate — uncapped; let the JVM optimisations and vsync-off do their job
+maxFps:120
+enableVsync:false
+
+# Simulation distance added in 1.18; ignored gracefully by 1.17
+simulationDistance:6
+renderDistance:8
+
+# UI
+gamma:1.0
+guiScale:0
+chatScale:1.0
+chatWidth:1.0
+chatHeightFocused:1.0
+chatHeightUnfocused:0.44366195
+chatLineSpacing:0.0
+chatDelay:0.0
+narrator:0
+showSubtitles:false
+
+# Sound defaults — let in-game audio work immediately
+soundDevice:
+masterVolume:1.0
+musicVolume:1.0
+recordVolume:1.0
+weatherVolume:1.0
+blockVolume:1.0
+hostileVolume:1.0
+neutralVolume:1.0
+playerVolume:1.0
+ambientVolume:1.0
+voiceVolume:1.0
+
+# Controls
+autoJump:false
+
+# Misc / one-time nags
+skipMultiplayerWarning:true
+skipRealms32bitWarning:true
+hideMatchedNames:true
+joinedFirstServer:false
+hideBundleTutorial:true
+onboardAccessibility:false
+tutorialStep:none

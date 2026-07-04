@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Aurora Top Bar (v3 GUI):
+    Multi-stop horizontal aurora gradient with a subtle top sheen and
+    a thin bottom edge shadow that gives the bar a floating feel.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base aurora gradient (left -> right) -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="0"
+                android:startColor="@color/aurora_indigo_deep"
+                android:centerColor="@color/aurora_indigo"
+                android:endColor="@color/aurora_violet" />
+        </shape>
+    </item>
+    <!-- Diagonal violet/cyan glow overlay -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="135"
+                android:startColor="#33A78BFF"
+                android:centerColor="#1822D3EE"
+                android:endColor="#00FFFFFF" />
+        </shape>
+    </item>
+    <!-- Top highlight sheen -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#22FFFFFF"
+                android:endColor="#00FFFFFF"
+                android:angle="270" />
+        </shape>
+    </item>
+    <!-- Bottom edge shadow -->
+    <item android:top="36dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#00000000"
+                android:endColor="#44000000"
+                android:angle="270" />
+        </shape>
+    </item>
+</layer-list>

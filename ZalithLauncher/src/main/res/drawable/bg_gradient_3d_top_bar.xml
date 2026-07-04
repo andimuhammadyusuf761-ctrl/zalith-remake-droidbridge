@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base gradient layer -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#0D4F4A"
+                android:centerColor="#0F766E"
+                android:endColor="#115E59"
+                android:angle="135" />
+        </shape>
+    </item>
+    <!-- Subtle light sweep for 3D depth -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#20FFFFFF"
+                android:endColor="#00000000"
+                android:angle="90" />
+        </shape>
+    </item>
+    <!-- Bottom edge shadow for 3D look -->
+    <item android:top="36dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#00000000"
+                android:endColor="#30000000"
+                android:angle="270" />
+        </shape>
+    </item>
+</layer-list>

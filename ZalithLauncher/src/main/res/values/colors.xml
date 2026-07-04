@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black_or_white">#000000</color>
+
+    <!-- ================================================================
+         Zalith Remake "Aurora" palette - LIGHT theme
+         Indigo + Violet + Cyan + Pink with frosted glass surfaces.
+         Names match what the rest of the app already references; the
+         palette underneath has been redesigned for the v3 GUI.
+         ================================================================ -->
+
+    <!-- App surfaces -->
+    <color name="background_app">#EEF1FB</color>
+    <color name="background_app_error">#FDE8E8</color>
+    <color name="background_overlay">#DDE3F1</color>
+    <color name="background_status_bar">#F5F7FE</color>
+    <color name="background_menu_top">#3B2E8C</color>
+    <color name="background_menu_top_error">#DC2626</color>
+    <color name="background_menu_element">#7C5CFF</color>
+    <color name="background_ripple_effect">#9CA3D9</color>
+
+    <!-- Buttons -->
+    <color name="button_background">#E4E8F8</color>
+    <color name="button_background_selected">#CCD3F0</color>
+    <color name="dialog_background">#FFFFFF</color>
+
+    <!-- Menu surfaces -->
+    <color name="menu_bar">#EFF2FB</color>
+    <color name="menu_bar_text">#FFFFFF</color>
+    <color name="menu_overlay">#CCFFFFFF</color>
+    <color name="menu_progress">#7C5CFF</color>
+
+    <!-- Item states -->
+    <color name="background_item">#E6FFFFFF</color>
+    <color name="background_item_selected">#E0EEEAFF</color>
+    <color name="background_item_disabled">#E0FEE2E2</color>
+    <color name="background_sponsor_intermediate">#D9FCD34D</color>
+    <color name="background_sponsor_advanced">#D9FB923C</color>
+
+    <!-- Edit boxes -->
+    <color name="edit_box_fill">#F1F2FB</color>
+    <color name="edit_box_fill_selected">#E4E6F8</color>
+
+    <!-- Misc -->
+    <color name="mod_category_fill">#80CCD3F0</color>
+    <color name="text_background_fill">#B3DDE3F1</color>
+
+    <color name="settings_category">#3B2E8C</color>
+    <color name="favorite_color">#EF4444</color>
+    <color name="icon_color">#1B1F36</color>
+    <color name="primary_text">#0F1226</color>
+
+    <!-- ================================================================
+         Aurora-specific accent tokens - referenced by new drawables.
+         ================================================================ -->
+    <color name="aurora_indigo">#3B2E8C</color>
+    <color name="aurora_indigo_deep">#241B5E</color>
+    <color name="aurora_violet">#7C5CFF</color>
+    <color name="aurora_violet_bright">#A78BFF</color>
+    <color name="aurora_cyan">#22D3EE</color>
+    <color name="aurora_pink">#F472B6</color>
+    <color name="aurora_surface">#F8F9FE</color>
+    <color name="aurora_surface_high">#FFFFFF</color>
+    <color name="aurora_outline">#22000000</color>
+    <color name="aurora_outline_strong">#33000000</color>
+
+    <!-- Legacy accent aliases kept for code references that still use them. -->
+    <color name="accent_primary">#7C5CFF</color>
+    <color name="accent_secondary">#22D3EE</color>
+    <color name="play_button_bg">#3B2E8C</color>
+    <color name="play_button_pressed">#7C5CFF</color>
+    <color name="card_shadow">#1A1B1F36</color>
+</resources>
