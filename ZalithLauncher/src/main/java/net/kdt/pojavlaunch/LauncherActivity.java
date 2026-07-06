@@ -73,6 +73,7 @@ import com.movtery.zalithlauncher.ui.dialog.EditTextDialog;
 import com.movtery.zalithlauncher.ui.dialog.TipDialog;
 import com.movtery.zalithlauncher.ui.fragment.AccountFragment;
 import com.movtery.zalithlauncher.ui.fragment.BaseFragment;
+import com.movtery.zalithlauncher.ui.fragment.CustomMouseFragment;
 import com.movtery.zalithlauncher.ui.fragment.DownloadFragment;
 import com.movtery.zalithlauncher.ui.fragment.DownloadModFragment;
 import com.movtery.zalithlauncher.ui.fragment.SettingsFragment;
@@ -122,6 +123,8 @@ public class LauncherActivity extends BaseActivity {
     public static final String FRAGMENT_ACCOUNT = "account";
     /** Value for {@link #EXTRA_OPEN_FRAGMENT} that opens the version/modpack download screen. */
     public static final String FRAGMENT_INSTALL = "install";
+    /** Value for {@link #EXTRA_OPEN_FRAGMENT} that opens the mouse cursor icon picker. */
+    public static final String FRAGMENT_CUSTOM_MOUSE = "custom_mouse";
 
     private final AnimPlayer noticeAnimPlayer = new AnimPlayer();
     public final ActivityResultLauncher<Object> modInstallerLauncher =
@@ -434,6 +437,9 @@ public class LauncherActivity extends BaseActivity {
             } else if (FRAGMENT_INSTALL.equals(openFragmentTarget)) {
                 initialFragmentClass = DownloadFragment.class;
                 initialFragmentTag = DownloadFragment.TAG;
+            } else if (FRAGMENT_CUSTOM_MOUSE.equals(openFragmentTarget)) {
+                initialFragmentClass = CustomMouseFragment.class;
+                initialFragmentTag = CustomMouseFragment.TAG;
             } else if (openFragmentTarget != null) {
                 Logging.w("LauncherActivity", "Unknown open-fragment target: " + openFragmentTarget);
             }

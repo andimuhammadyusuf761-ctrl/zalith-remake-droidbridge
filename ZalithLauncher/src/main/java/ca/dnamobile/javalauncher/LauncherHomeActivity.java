@@ -248,9 +248,7 @@ public final class LauncherHomeActivity extends AppCompatActivity implements Lau
     }
 
     private void openAccountManagement() {
-        Intent intent = new Intent(this, LauncherActivity.class);
-        intent.putExtra(LauncherActivity.EXTRA_OPEN_FRAGMENT, LauncherActivity.FRAGMENT_ACCOUNT);
-        startActivity(intent);
+        startActivity(new Intent(this, LauncherSettingsActivity.class));
     }
 
     private void openInstanceInstall() {

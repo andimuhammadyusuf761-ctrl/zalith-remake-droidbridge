@@ -473,6 +473,13 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
             }
         });
 
+        binding.buttonDownloadRenderers.setOnClickListener(view -> {
+            Intent intent = new Intent(this, net.kdt.pojavlaunch.LauncherActivity.class);
+            intent.putExtra(net.kdt.pojavlaunch.LauncherActivity.EXTRA_OPEN_FRAGMENT,
+                    net.kdt.pojavlaunch.LauncherActivity.FRAGMENT_INSTALL);
+            startActivity(intent);
+        });
+
         binding.buttonImportRendererPlugin.setOnClickListener(view -> openSelectedRendererPluginSettings());
         binding.buttonGrantRendererStorageAccess.setOnClickListener(view -> openJavaLauncherStorageAccessSettings());
         binding.buttonClearRendererPluginCache.setOnClickListener(view -> clearRendererPluginCache());
@@ -808,6 +815,13 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
         binding.buttonManageTouchControls.setOnClickListener(view ->
                 startActivity(new Intent(this, ControlsActivity.class))
         );
+
+        binding.buttonMouseCursorIconSettings.setOnClickListener(view -> {
+            Intent intent = new Intent(this, net.kdt.pojavlaunch.LauncherActivity.class);
+            intent.putExtra(net.kdt.pojavlaunch.LauncherActivity.EXTRA_OPEN_FRAGMENT,
+                    net.kdt.pojavlaunch.LauncherActivity.FRAGMENT_CUSTOM_MOUSE);
+            startActivity(intent);
+        });
 
         setupHardwareMouseDpiScaleSettings();
         refreshControllerSettingsValues();

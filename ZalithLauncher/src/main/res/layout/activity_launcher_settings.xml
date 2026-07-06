@@ -231,7 +231,9 @@
                                 app:iconGravity="textStart"
                                 app:iconPadding="0dp"
                                 app:iconTint="?attr/colorPrimary" />
-                        <!-- binding.textRendererDescription — friendly description of selected renderer -->
+
+                        </LinearLayout>
+
                         <TextView
                             android:id="@+id/textRendererDescription"
                             android:layout_width="match_parent"
@@ -239,8 +241,6 @@
                             android:layout_marginTop="6dp"
                             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                             android:textIsSelectable="false" />
-
-                        </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/layoutVulkanDriverSettings"
