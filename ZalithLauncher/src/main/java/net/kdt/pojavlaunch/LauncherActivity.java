@@ -367,7 +367,6 @@ public class LauncherActivity extends BaseActivity {
 
         processFragment();
         processViews();
-        handleOpenFragmentExtra();
 
         mRequestNotificationPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(),
@@ -423,34 +422,26 @@ public class LauncherActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         //如果栈中没有Fragment，那么就将主Fragment添加进来
         if (fragmentManager.getBackStackEntryCount() < 1) {
+            Class<? extends Fragment> initialFragmentClass = MainMenuFragment.class;
+            String initialFragmentTag = MainMenuFragment.TAG;
+
+            //支持其他入口（例如 DroidBridge 主页）通过 EXTRA_OPEN_FRAGMENT 直接跳转到指定Fragment，
+            //避免先短暂显示主菜单再切换的闪烁问题
+            String openFragmentTarget = getIntent().getStringExtra(EXTRA_OPEN_FRAGMENT);
+            if (FRAGMENT_ACCOUNT.equals(openFragmentTarget)) {
+                initialFragmentClass = AccountFragment.class;
+                initialFragmentTag = AccountFragment.TAG;
+            } else if (FRAGMENT_INSTALL.equals(openFragmentTarget)) {
+                initialFragmentClass = DownloadFragment.class;
+                initialFragmentTag = DownloadFragment.TAG;
+            } else if (openFragmentTarget != null) {
+                Logging.w("LauncherActivity", "Unknown open-fragment target: " + openFragmentTarget);
+            }
+
             fragmentManager.beginTransaction()
                     .setReorderingAllowed(true)
-                    .addToBackStack(MainMenuFragment.TAG)
-                    .add(R.id.container_fragment, MainMenuFragment.class, null, MainMenuFragment.TAG).commit();
-        }
-    }
-
-    /**
-     * Handles {@link #EXTRA_OPEN_FRAGMENT}, letting other entry points (e.g. DroidBridge's
-     * home screen) deep-link straight into the account or install fragment on top of the
-     * base {@link MainMenuFragment}.
-     */
-    private void handleOpenFragmentExtra() {
-        String target = getIntent().getStringExtra(EXTRA_OPEN_FRAGMENT);
-        if (target == null) return;
-
-        Fragment fragment = getSupportFragmentManager().findFragmentById(binding.containerFragment.getId());
-        if (fragment == null) return;
-
-        switch (target) {
-            case FRAGMENT_ACCOUNT:
-                ZHTools.swapFragmentWithAnim(fragment, AccountFragment.class, AccountFragment.TAG, null);
-                break;
-            case FRAGMENT_INSTALL:
-                ZHTools.swapFragmentWithAnim(fragment, DownloadFragment.class, DownloadFragment.TAG, null);
-                break;
-            default:
-                Logging.w("LauncherActivity", "Unknown open-fragment target: " + target);
+                    .addToBackStack(initialFragmentTag)
+                    .add(R.id.container_fragment, initialFragmentClass, null, initialFragmentTag).commit();
         }
     }
 
