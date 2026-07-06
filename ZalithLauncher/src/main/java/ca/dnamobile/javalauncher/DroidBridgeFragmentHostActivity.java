@@ -25,6 +25,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.movtery.zalithlauncher.R;
 import com.movtery.zalithlauncher.ui.fragment.CustomMouseFragment;
 import com.movtery.zalithlauncher.ui.fragment.DownloadFragment;
+import com.movtery.zalithlauncher.ui.fragment.DownloadModFragment;
 
 import ca.dnamobile.javalauncher.feature.log.Logging;
 import ca.dnamobile.javalauncher.utils.FullscreenUtils;

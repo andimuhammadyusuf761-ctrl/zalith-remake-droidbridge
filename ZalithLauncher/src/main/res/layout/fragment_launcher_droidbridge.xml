@@ -123,6 +123,16 @@
                     android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
                     android:textStyle="bold" />
 
+                <!-- Mods button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/db_mods_button"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="Mods"
+                    app:icon="@drawable/ic_download" />
+
                 <!-- New instance button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/db_new_instance_button"
