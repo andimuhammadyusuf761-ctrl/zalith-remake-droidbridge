@@ -19,7 +19,7 @@ import com.movtery.zalithlauncher.feature.unpack.UnpackSingleFilesTask
 import com.movtery.zalithlauncher.task.Task
 import com.movtery.zalithlauncher.ui.dialog.TipDialog
 import com.movtery.zalithlauncher.utils.StoragePermissionsUtils
-import net.kdt.pojavlaunch.LauncherActivity
+import ca.dnamobile.javalauncher.LauncherHomeActivity
 import net.kdt.pojavlaunch.MissingStorageActivity
 import net.kdt.pojavlaunch.Tools
 
@@ -137,7 +137,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun toMain() {
-        startActivity(Intent(this, LauncherActivity::class.java))
+        startActivity(Intent(this, LauncherHomeActivity::class.java))
         finish()
     }
 
