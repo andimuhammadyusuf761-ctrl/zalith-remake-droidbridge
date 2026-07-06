@@ -40,4 +40,8 @@ public class PointerTracker {
     public float[] getMotionVector() {
         return mMotionVector;
     }
+
+    public float getLastX() { return mLastX; }
+    public float getLastY() { return mLastY; }
+    public int getTrackedPointerId() { return mTrackedPointerId; }
 }

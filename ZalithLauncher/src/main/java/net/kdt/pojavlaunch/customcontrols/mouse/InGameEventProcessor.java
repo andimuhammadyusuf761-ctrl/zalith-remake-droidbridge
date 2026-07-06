@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.movtery.zalithlauncher.feature.touchbooster.TouchBooster;
 import com.movtery.zalithlauncher.setting.AllSettings;
 import com.movtery.zalithlauncher.setting.AllStaticSettings;
 import com.movtery.zalithlauncher.support.touch_controller.ContactHandler;
@@ -28,27 +29,58 @@ public class InGameEventProcessor implements TouchEventProcessor {
         switch (motionEvent.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 mTracker.startTracking(motionEvent);
-                if(AllSettings.getDisableGestures().getValue()) break;
+                TouchBooster.INSTANCE.boost();
+                if (AllSettings.getDisableGestures().getValue()) break;
                 mEventTransitioned = false;
                 checkGestures();
                 break;
+
             case MotionEvent.ACTION_MOVE:
+                // --- DroidBridge Touch Booster: process ALL historical samples ---
+                // Android batches multiple touch samples into a single ACTION_MOVE event.
+                // Processing only the final position drops intermediate samples and causes
+                // jerky camera movement. Walking the full history gives butter-smooth panning.
+                int histSize = motionEvent.getHistorySize();
+                int trackedIdx = motionEvent.findPointerIndex(mTracker.getTrackedPointerId());
+                if (trackedIdx < 0) trackedIdx = 0;
+
+                float prevX = mTracker.getLastX();
+                float prevY = mTracker.getLastY();
+                float totalDX = 0f, totalDY = 0f;
+
+                for (int h = 0; h < histSize; h++) {
+                    float hx = motionEvent.getHistoricalX(trackedIdx, h);
+                    float hy = motionEvent.getHistoricalY(trackedIdx, h);
+                    totalDX += hx - prevX;
+                    totalDY += hy - prevY;
+                    prevX = hx;
+                    prevY = hy;
+                }
+                float curX = motionEvent.getX(trackedIdx);
+                float curY = motionEvent.getY(trackedIdx);
+                totalDX += curX - prevX;
+                totalDY += curY - prevY;
+
+                // Commit final position to tracker (keeps gesture detectors in sync)
                 mTracker.trackEvent(motionEvent);
-                float[] motionVector = mTracker.getMotionVector();
-                float deltaX = (float) (motionVector[0] * mSensitivity);
-                float deltaY = (float) (motionVector[1] * mSensitivity);
+
+                float deltaX = (float) (totalDX * mSensitivity);
+                float deltaY = (float) (totalDY * mSensitivity);
                 mLeftClickGesture.setMotion(deltaX, deltaY);
                 mRightClickGesture.setMotion(deltaX, deltaY);
                 CallbackBridge.mouseX += deltaX;
                 CallbackBridge.mouseY += deltaY;
                 CallbackBridge.sendCursorPos(CallbackBridge.mouseX, CallbackBridge.mouseY);
-                if(AllSettings.getDisableGestures().getValue()) break;
+                if (AllSettings.getDisableGestures().getValue()) break;
                 checkGestures();
                 break;
+
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 mTracker.cancelTracking();
                 cancelGestures(false);
+                TouchBooster.INSTANCE.restore();
+                break;
         }
         return true;
     }
@@ -56,22 +88,19 @@ public class InGameEventProcessor implements TouchEventProcessor {
     @Override
     public void cancelPendingActions() {
         cancelGestures(true);
+        TouchBooster.INSTANCE.restore();
     }
 
     @Override
     public void dispatchTouchEvent(MotionEvent event, View view) {
         if (AllStaticSettings.useControllerProxy) {
-            //单独处理触摸事件，支持TouchController模组
             ContactHandler.INSTANCE.progressEvent(event, view);
         }
     }
 
     private void checkGestures() {
         mLeftClickGesture.inputEvent();
-        // Only register right click events if it's a fresh event stream, not one after a transition.
-        // This is done to avoid problems when people hold the button for just a bit too long after
-        // exiting a menu for example.
-        if(!mEventTransitioned) mRightClickGesture.inputEvent();
+        if (!mEventTransitioned) mRightClickGesture.inputEvent();
     }
 
     private void cancelGestures(boolean isSwitching) {

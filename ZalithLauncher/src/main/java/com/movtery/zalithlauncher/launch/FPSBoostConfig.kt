@@ -6,7 +6,7 @@ import android.os.Build
 import com.movtery.zalithlauncher.feature.log.Logging
 
 /**
- * Zalith Remake FPS Boost Configuration (v3 "Aurora").
+ * Zalith Remake — DroidBridge Edition FPS Boost Configuration (v6 "Aurora Hyperdrive").
  *
  * Provides:
  *  1. Version-aware JVM tuning profiles for MC 1.8.x - 1.21.x.
@@ -14,6 +14,8 @@ import com.movtery.zalithlauncher.feature.log.Logging
  *     base profile scales to the actual hardware.
  *  3. Common code-cache, metaspace, security and JIT flags shared by
  *     every profile.
+ *  4. "Hyper+" dedicated path for MC 1.21+ with Generational ZGC,
+ *     deeper JIT inlining, and faster tier-escalation.
  *
  * IMPORTANT: -XX:+UnlockExperimentalVMOptions MUST come before any
  * experimental G1GC flags (G1NewSizePercent, G1MaxNewSizePercent,
@@ -87,23 +89,26 @@ object FPSBoostConfig {
         val isHigh = tier == DeviceTier.HIGH
         val isLow = tier == DeviceTier.LOW
 
+        // Aurora v6 "Hyperdrive" GC — Generational ZGC for HIGH, tuned G1 for MID/LOW
         val gcArgs: List<String> = if (isHigh) {
             listOf(
                 "-XX:+UnlockExperimentalVMOptions",
                 "-XX:+UseZGC",
                 "-XX:+ZGenerational",
                 "-XX:-ZProactive",
-                "-XX:ZUncommitDelay=300",
+                "-XX:ZUncommitDelay=120",          // reclaim idle heap faster
+                "-XX:ZCollectionInterval=5",        // trigger ZGC every 5s max
                 "-XX:+UseStringDeduplication",
                 "-XX:+UseCompressedOops",
                 "-XX:+ParallelRefProcEnabled",
-                "-XX:+DisableExplicitGC"
+                "-XX:+DisableExplicitGC",
+                "-XX:+AlwaysPreTouch"
             )
         } else {
             listOf(
                 "-XX:+UnlockExperimentalVMOptions",
                 "-XX:+UseG1GC",
-                "-XX:MaxGCPauseMillis=" + (if (isLow) "10" else "4"),
+                "-XX:MaxGCPauseMillis=" + (if (isLow) "8" else "2"),
                 "-XX:G1NewSizePercent=20",
                 "-XX:G1MaxNewSizePercent=60",
                 "-XX:G1HeapRegionSize=" + (if (isLow) "4M" else "8M"),
@@ -115,6 +120,7 @@ object FPSBoostConfig {
                 "-XX:G1RSetUpdatingPauseTimePercent=5",
                 "-XX:SurvivorRatio=32",
                 "-XX:MaxTenuringThreshold=1",
+                "-XX:+UseAdaptiveGCBoundary",
                 "-XX:+UseStringDeduplication",
                 "-XX:+UseCompressedOops",
                 "-XX:+OptimizeStringConcat",
@@ -123,7 +129,22 @@ object FPSBoostConfig {
             )
         }
 
-        val jitArgs = listOf(
+        // Aurora v6: deeper inlining for HIGH, still aggressive for MID/LOW
+        val jitArgs = if (isHigh) listOf(
+            "-XX:+UnlockDiagnosticVMOptions",
+            "-XX:+UseInlineCaches",
+            "-XX:+DoEscapeAnalysis",
+            "-XX:+EliminateLocks",
+            "-XX:+EliminateAllocations",
+            "-XX:+UseTypeSpeculation",
+            "-XX:MaxInlineLevel=20",
+            "-XX:InlineSmallCode=3000",
+            "-XX:FreqInlineSize=500",
+            "-XX:LoopUnrollLimit=300",
+            "-XX:LiveNodeCountInliningCutoff=40000",
+            "-XX:ReservedCodeCacheSize=512M",
+            "-XX:InitialCodeCacheSize=128M"
+        ) else listOf(
             "-XX:+UnlockDiagnosticVMOptions",
             "-XX:+UseInlineCaches",
             "-XX:+DoEscapeAnalysis",
@@ -146,19 +167,19 @@ object FPSBoostConfig {
             DeviceTier.HIGH -> listOf(
                 "-XX:ParallelGCThreads=${(cores / 2).coerceIn(4, 8)}",
                 "-XX:ConcGCThreads=${(cores / 4).coerceIn(2, 4)}",
-                "-XX:CICompilerCount=4",
+                "-XX:CICompilerCount=${(cores / 2).coerceIn(4, 6)}",
                 "-XX:+AlwaysPreTouch"
             )
             DeviceTier.MID -> listOf(
                 "-XX:ParallelGCThreads=${(cores / 2).coerceIn(2, 4)}",
                 "-XX:ConcGCThreads=${(cores / 4).coerceIn(1, 2)}",
-                "-XX:CICompilerCount=2"
+                "-XX:CICompilerCount=3"
             )
             DeviceTier.LOW -> listOf(
                 "-XX:ParallelGCThreads=2",
                 "-XX:ConcGCThreads=1",
                 "-XX:CICompilerCount=2",
-                "-XX:TieredStopAtLevel=2",
+                "-XX:TieredStopAtLevel=3",
                 "-XX:-AlwaysPreTouch"
             )
         }
@@ -181,10 +202,10 @@ object FPSBoostConfig {
 
         val gcLabel = if (isHigh) "ZGen" else "G1+"
         return BoostProfile(
-            name = "Hyper Boost (1.21+) · ${tier.name} · $gcLabel",
-            description = "Aurora v4: Java-21-tuned, " +
-                if (isHigh) "Generational ZGC, sub-ms GC pauses, SIMD"
-                else "tight G1, aggressive JIT inlining",
+            name = "Hyper+ Boost (1.21+) · ${tier.name} · $gcLabel",
+            description = "Aurora v6 Hyperdrive: Java-21-tuned, " +
+                if (isHigh) "Gen-ZGC 5s interval, 512M code cache, lvl-20 inlining"
+                else "tight G1 pause≤${if (isLow) "8" else "2"}ms, aggressive JIT",
             jvmArgs = merged,
             envVars = emptyMap()
         )
@@ -350,16 +371,17 @@ object FPSBoostConfig {
     }
 
     /**
-     * Ultra profile for MC 1.20.x - 1.21.x
+     * Ultra profile for MC 1.20.x - 1.21.x (Java 17 path; Java 21 goes to Hyper+)
      */
     private fun getUltraProfile(): BoostProfile {
+        val cores = Runtime.getRuntime().availableProcessors()
         return BoostProfile(
-            name = "Ultra Boost (1.20-1.21+)",
-            description = "Maximum performance for latest MC versions",
+            name = "Ultra Boost (1.20-1.21)",
+            description = "Maximum G1GC performance for 1.20-1.21, pause ≤ 2 ms",
             jvmArgs = listOf(
                 "-XX:+UnlockExperimentalVMOptions",
                 "-XX:+UseG1GC",
-                "-XX:MaxGCPauseMillis=5",
+                "-XX:MaxGCPauseMillis=2",
                 "-XX:G1NewSizePercent=20",
                 "-XX:G1MaxNewSizePercent=60",
                 "-XX:G1HeapRegionSize=16M",
@@ -372,15 +394,21 @@ object FPSBoostConfig {
                 "-XX:SurvivorRatio=32",
                 "-XX:+PerfDisableSharedMem",
                 "-XX:MaxTenuringThreshold=1",
+                "-XX:+UseAdaptiveGCBoundary",
                 "-XX:+UseCompressedOops",
                 "-XX:+OptimizeStringConcat",
                 "-XX:+UseStringDeduplication",
-                // Note: UseBiasedLocking removed in Java 19+ (don't add it back)
                 "-XX:+AlwaysPreTouch",
                 "-XX:+ParallelRefProcEnabled",
                 "-XX:+DisableExplicitGC",
-                "-XX:ParallelGCThreads=4",
-                "-XX:ConcGCThreads=2",
+                "-XX:ParallelGCThreads=${(cores / 2).coerceIn(4, 8)}",
+                "-XX:ConcGCThreads=${(cores / 4).coerceIn(2, 4)}",
+                "-XX:CICompilerCount=${(cores / 2).coerceIn(3, 6)}",
+                "-XX:ReservedCodeCacheSize=384M",
+                "-XX:InitialCodeCacheSize=128M",
+                "-XX:MaxInlineLevel=18",
+                "-XX:InlineSmallCode=2500",
+                "-XX:FreqInlineSize=400",
                 "-Djava.net.preferIPv4Stack=true",
                 "-Dnetworkaddress.cache.ttl=60"
             ),
@@ -449,8 +477,12 @@ object FPSBoostConfig {
             "-XX:ReservedCodeCacheSize=200M",
             "-XX:InitialCodeCacheSize=64M",
             "-XX:+SegmentedCodeCache",
-            // CompileThreshold set once here; v6 duplicate removed
-            "-XX:CompileThreshold=1000",
+            // Aurora v6: lower compile threshold = JIT kicks in faster during world load
+            "-XX:CompileThreshold=500",
+            // Aurora v6: faster tier escalation (C1→C2 sooner = better steady-state FPS)
+            "-XX:Tier3InvocationThreshold=200",
+            "-XX:Tier4InvocationThreshold=3000",
+            "-XX:Tier4MinInvocationThreshold=1500",
             // v5 JIT polish
             "-XX:+UseFastUnorderedTimeStamps",
             "-XX:GuaranteedSafepointInterval=0",
@@ -460,9 +492,9 @@ object FPSBoostConfig {
             "-XX:+UseTypeSpeculation",
             "-XX:TypeProfileLevel=222",
             "-XX:OnStackReplacePercentage=140",
+            // v6: allow more inlining nodes before cut-off
+            "-XX:LiveNodeCountInliningCutoff=40000",
             // Loop optimizations — public C2 flags, supported on Hotspot 11+
-            // (UseLoopPredicate was removed; it IS a real flag but its removal is harmless and
-            //  avoids version-specific diagnostic-VM coupling)
             "-XX:+UseCountedLoopSafepoints",
             "-XX:LoopStripMiningIter=1000",
             "-XX:LoopStripMiningIterShortLoop=100",
