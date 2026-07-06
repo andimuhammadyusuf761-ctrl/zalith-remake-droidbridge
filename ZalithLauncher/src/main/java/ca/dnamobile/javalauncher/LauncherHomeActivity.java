@@ -29,7 +29,6 @@ import com.movtery.zalithlauncher.feature.version.VersionInfo;
 import com.movtery.zalithlauncher.feature.version.VersionsManager;
 import com.movtery.zalithlauncher.launch.LaunchGame;
 
-import net.kdt.pojavlaunch.LauncherActivity;
 import net.kdt.pojavlaunch.value.MinecraftAccount;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,8 +46,7 @@ import ca.dnamobile.javalauncher.ui.instance.LauncherInstanceAdapter;
  * main menu as the app's primary GUI: it lists real installed Minecraft versions
  * (via {@link VersionsManager}) as DroidBridge "instances", shows the active
  * account (via {@link AccountsManager}), and launches the game through Zalith's
- * existing {@link LaunchGame} pipeline. Account login and version installation
- * still happen inside {@link LauncherActivity}, which this screen delegates to.
+ * existing {@link LaunchGame} pipeline.
  */
 public final class LauncherHomeActivity extends AppCompatActivity implements LauncherInstanceAdapter.Listener {
 
@@ -252,8 +250,6 @@ public final class LauncherHomeActivity extends AppCompatActivity implements Lau
     }
 
     private void openInstanceInstall() {
-        Intent intent = new Intent(this, LauncherActivity.class);
-        intent.putExtra(LauncherActivity.EXTRA_OPEN_FRAGMENT, LauncherActivity.FRAGMENT_INSTALL);
-        startActivity(intent);
+        startActivity(DroidBridgeFragmentHostActivity.intentFor(this, DroidBridgeFragmentHostActivity.FRAGMENT_INSTALL));
     }
 }

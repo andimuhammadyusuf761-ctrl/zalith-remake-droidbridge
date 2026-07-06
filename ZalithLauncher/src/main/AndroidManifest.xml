@@ -131,6 +131,14 @@
              DroidBridge Launcher activities and providers (ported from DroidBridge)
              ================================================================ -->
         <activity
+            android:name="ca.dnamobile.javalauncher.DroidBridgeFragmentHostActivity"
+            android:exported="false"
+            android:theme="@style/DroidBridgeSettingsTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name="ca.dnamobile.javalauncher.LauncherHomeActivity"
             android:exported="false"
             android:theme="@style/DroidBridgeSettingsTheme"

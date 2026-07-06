@@ -473,12 +473,9 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
             }
         });
 
-        binding.buttonDownloadRenderers.setOnClickListener(view -> {
-            Intent intent = new Intent(this, net.kdt.pojavlaunch.LauncherActivity.class);
-            intent.putExtra(net.kdt.pojavlaunch.LauncherActivity.EXTRA_OPEN_FRAGMENT,
-                    net.kdt.pojavlaunch.LauncherActivity.FRAGMENT_INSTALL);
-            startActivity(intent);
-        });
+        binding.buttonDownloadRenderers.setOnClickListener(view ->
+                startActivity(DroidBridgeFragmentHostActivity.intentFor(this, DroidBridgeFragmentHostActivity.FRAGMENT_INSTALL))
+        );
 
         binding.buttonImportRendererPlugin.setOnClickListener(view -> openSelectedRendererPluginSettings());
         binding.buttonGrantRendererStorageAccess.setOnClickListener(view -> openJavaLauncherStorageAccessSettings());
@@ -816,12 +813,9 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ControlsActivity.class))
         );
 
-        binding.buttonMouseCursorIconSettings.setOnClickListener(view -> {
-            Intent intent = new Intent(this, net.kdt.pojavlaunch.LauncherActivity.class);
-            intent.putExtra(net.kdt.pojavlaunch.LauncherActivity.EXTRA_OPEN_FRAGMENT,
-                    net.kdt.pojavlaunch.LauncherActivity.FRAGMENT_CUSTOM_MOUSE);
-            startActivity(intent);
-        });
+        binding.buttonMouseCursorIconSettings.setOnClickListener(view ->
+                startActivity(DroidBridgeFragmentHostActivity.intentFor(this, DroidBridgeFragmentHostActivity.FRAGMENT_CUSTOM_MOUSE))
+        );
 
         setupHardwareMouseDpiScaleSettings();
         refreshControllerSettingsValues();
