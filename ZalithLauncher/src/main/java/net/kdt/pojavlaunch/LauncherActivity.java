@@ -111,6 +111,18 @@ import java.util.Random;
 import java.util.concurrent.Future;
 
 public class LauncherActivity extends BaseActivity {
+    /**
+     * Intent extra used by other entry points (e.g. DroidBridge's home screen) to deep-link
+     * straight into a specific fragment instead of landing on {@link MainMenuFragment}.
+     * @see #FRAGMENT_ACCOUNT
+     * @see #FRAGMENT_INSTALL
+     */
+    public static final String EXTRA_OPEN_FRAGMENT = "open_fragment";
+    /** Value for {@link #EXTRA_OPEN_FRAGMENT} that opens the account/login screen. */
+    public static final String FRAGMENT_ACCOUNT = "account";
+    /** Value for {@link #EXTRA_OPEN_FRAGMENT} that opens the version/modpack download screen. */
+    public static final String FRAGMENT_INSTALL = "install";
+
     private final AnimPlayer noticeAnimPlayer = new AnimPlayer();
     public final ActivityResultLauncher<Object> modInstallerLauncher =
             registerForActivityResult(new OpenDocumentWithExtension("jar"), (uris) -> {
@@ -355,6 +367,7 @@ public class LauncherActivity extends BaseActivity {
 
         processFragment();
         processViews();
+        handleOpenFragmentExtra();
 
         mRequestNotificationPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(),
@@ -414,6 +427,30 @@ public class LauncherActivity extends BaseActivity {
                     .setReorderingAllowed(true)
                     .addToBackStack(MainMenuFragment.TAG)
                     .add(R.id.container_fragment, MainMenuFragment.class, null, MainMenuFragment.TAG).commit();
+        }
+    }
+
+    /**
+     * Handles {@link #EXTRA_OPEN_FRAGMENT}, letting other entry points (e.g. DroidBridge's
+     * home screen) deep-link straight into the account or install fragment on top of the
+     * base {@link MainMenuFragment}.
+     */
+    private void handleOpenFragmentExtra() {
+        String target = getIntent().getStringExtra(EXTRA_OPEN_FRAGMENT);
+        if (target == null) return;
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(binding.containerFragment.getId());
+        if (fragment == null) return;
+
+        switch (target) {
+            case FRAGMENT_ACCOUNT:
+                ZHTools.swapFragmentWithAnim(fragment, AccountFragment.class, AccountFragment.TAG, null);
+                break;
+            case FRAGMENT_INSTALL:
+                ZHTools.swapFragmentWithAnim(fragment, DownloadFragment.class, DownloadFragment.TAG, null);
+                break;
+            default:
+                Logging.w("LauncherActivity", "Unknown open-fragment target: " + target);
         }
     }
 
