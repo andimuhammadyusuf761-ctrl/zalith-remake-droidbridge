@@ -12,7 +12,6 @@
 
 package ca.dnamobile.javalauncher;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -59,7 +58,6 @@ import ca.dnamobile.javalauncher.input.GamepadMappingDialog;
 import ca.dnamobile.javalauncher.input.GamepadMappingStore;
 import ca.dnamobile.javalauncher.legal.LegalLinks;
 import ca.dnamobile.javalauncher.logs.LauncherLogManager;
-import ca.dnamobile.javalauncher.modcompat.AndroidMicrophonePermission;
 import ca.dnamobile.javalauncher.notifications.LauncherNotificationPermissionHelper;
 import ca.dnamobile.javalauncher.renderer.Driver;
 import ca.dnamobile.javalauncher.renderer.DriverPluginManager;
@@ -93,7 +91,6 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> microsoftSkinPickerLauncher;
     private ActivityResultLauncher<Intent> offlineSkinPickerLauncher;
     private ActivityResultLauncher<String> notificationPermissionLauncher;
-    private ActivityResultLauncher<String> microphonePermissionLauncher;
     private ActivityResultLauncher<Intent> mobileGluesFolderPickerLauncher;
     private Uri pendingOfflineSkinUri;
     private ImageView pendingOfflineSkinPreview;
@@ -122,7 +119,6 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
         registerMicrosoftSkinPickerLauncher();
         registerOfflineSkinPickerLauncher();
         registerNotificationPermissionLauncher();
-        registerMicrophonePermissionLauncher();
         registerMobileGluesFolderPickerLauncher();
         setupAccountUi();
         setupInstanceSettings();
@@ -146,7 +142,6 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
             }
             refreshControllerSettingsValues();
             updateInstallNotificationSettingsUi();
-            updateSimpleVoiceChatPermissionUi();
             refreshAccountUiFromStore();
         }
     }
@@ -1071,26 +1066,6 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void registerMicrophonePermissionLauncher() {
-        microphonePermissionLauncher = registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(),
-                granted -> {
-                    updateSimpleVoiceChatPermissionUi();
-                    Toast.makeText(
-                            this,
-                            granted
-                                    ? R.string.simple_voice_chat_permission_granted_toast
-                                    : R.string.simple_voice_chat_permission_denied_toast,
-                            granted ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG
-                    ).show();
-
-                    if (!granted) {
-                        showSimpleVoiceChatPermissionDeniedDialog();
-                    }
-                }
-        );
-    }
-
     private void registerMobileGluesFolderPickerLauncher() {
         mobileGluesFolderPickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -1113,54 +1088,21 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
         );
     }
 
-    private void setupSimpleVoiceChatSettings() {
-        updateSimpleVoiceChatPermissionUi();
-        binding.buttonSimpleVoiceChatMicrophonePermission.setOnClickListener(view -> {
-            if (AndroidMicrophonePermission.isGranted(this)) {
-                showSimpleVoiceChatPermissionGrantedDialog();
-                return;
+    private void setupTouchSensitivitySettings() {
+        int current = LauncherPreferences.getTouchSensitivity(this);
+        binding.sliderTouchSensitivity.setMax(LauncherPreferences.MAX_TOUCH_SENSITIVITY - LauncherPreferences.MIN_TOUCH_SENSITIVITY);
+        binding.sliderTouchSensitivity.setProgress(current - LauncherPreferences.MIN_TOUCH_SENSITIVITY);
+        binding.textTouchSensitivityValue.setText(current + " / " + LauncherPreferences.MAX_TOUCH_SENSITIVITY);
+        binding.sliderTouchSensitivity.setOnSeekBarChangeListener(new android.widget.SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(android.widget.SeekBar seekBar, int progress, boolean fromUser) {
+                int value = progress + LauncherPreferences.MIN_TOUCH_SENSITIVITY;
+                binding.textTouchSensitivityValue.setText(value + " / " + LauncherPreferences.MAX_TOUCH_SENSITIVITY);
+                LauncherPreferences.setTouchSensitivity(LauncherSettingsActivity.this, value);
             }
-
-            if (microphonePermissionLauncher != null) {
-                microphonePermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
-            } else {
-                AndroidMicrophonePermission.showRequestDialog(this);
-            }
+            @Override public void onStartTrackingTouch(android.widget.SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(android.widget.SeekBar seekBar) {}
         });
-    }
-
-    private void updateSimpleVoiceChatPermissionUi() {
-        if (binding == null
-                || binding.buttonSimpleVoiceChatMicrophonePermission == null
-                || binding.textSimpleVoiceChatMicrophoneStatus == null) {
-            return;
-        }
-
-        boolean granted = AndroidMicrophonePermission.isGranted(this);
-        binding.textSimpleVoiceChatMicrophoneStatus.setText(granted
-                ? R.string.simple_voice_chat_microphone_status_granted
-                : R.string.simple_voice_chat_microphone_status_missing);
-        binding.buttonSimpleVoiceChatMicrophonePermission.setText(granted
-                ? R.string.simple_voice_chat_microphone_button_enabled
-                : R.string.simple_voice_chat_microphone_button_enable);
-    }
-
-    private void showSimpleVoiceChatPermissionGrantedDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.simple_voice_chat_microphone_title)
-                .setMessage(R.string.simple_voice_chat_microphone_already_granted)
-                .setPositiveButton(android.R.string.ok, null)
-                .show();
-    }
-
-    private void showSimpleVoiceChatPermissionDeniedDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.simple_voice_chat_microphone_title)
-                .setMessage(R.string.simple_voice_chat_microphone_denied_message)
-                .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(R.string.simple_voice_chat_open_app_settings, (dialog, which) ->
-                        AndroidMicrophonePermission.openAppSettings(this))
-                .show();
     }
 
     private void setupOrientationSettings() {
@@ -1190,7 +1132,7 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
         setupOrientationSettings();
         setupMemorySettings();
         setupInstallNotificationSettings();
-        setupSimpleVoiceChatSettings();
+        setupTouchSensitivitySettings();
 
         binding.checkKeepLogs.setChecked(LauncherLogManager.isKeepLogHistoryEnabled(this));
         binding.checkKeepLogs.setOnCheckedChangeListener((buttonView, isChecked) ->

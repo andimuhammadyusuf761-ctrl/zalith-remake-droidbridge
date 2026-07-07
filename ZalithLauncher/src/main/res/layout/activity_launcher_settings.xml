@@ -765,6 +765,45 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="Touch sensitivity"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textTouchSensitivityValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="5 / 10"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                            android:textStyle="bold" />
+
+                        <SeekBar
+                            android:id="@+id/sliderTouchSensitivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:contentDescription="Touch sensitivity"
+                            android:max="9"
+                            android:progress="4" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Controls how responsive touch and pointer input feels in-game. Lower = slower camera, higher = faster camera."
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="?android:attr/listDivider" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:text="@string/settings_memory_title"
                             android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
                             android:textStyle="bold" />
@@ -839,44 +878,6 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/install_notifications_summary_permission_needed"
                             android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="14dp"
-                            android:layout_marginBottom="12dp"
-                            android:background="?android:attr/listDivider" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_simple_voice_chat_title"
-                            android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="@string/settings_simple_voice_chat_summary"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
-
-                        <TextView
-                            android:id="@+id/textSimpleVoiceChatMicrophoneStatus"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/simple_voice_chat_microphone_status_missing"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:textStyle="bold" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/buttonSimpleVoiceChatMicrophonePermission"
-                            style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/simple_voice_chat_microphone_button_enable" />
 
                         <View
                             android:layout_width="match_parent"

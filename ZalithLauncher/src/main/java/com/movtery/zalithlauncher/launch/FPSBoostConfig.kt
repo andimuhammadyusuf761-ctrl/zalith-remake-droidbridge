@@ -471,29 +471,29 @@ object FPSBoostConfig {
      */
     private fun auroraSharedFlags(): List<String> {
         return listOf(
-            // Code cache / JIT — unlocks MUST come first
+            // Safety net: silently skip any flag the bundled JRE doesn't know about.
+            // Must be first so it covers everything that follows.
+            "-XX:+IgnoreUnrecognizedVMOptions",
+            // Code cache / JIT — unlocks MUST come after IgnoreUnrecognizedVMOptions
             "-XX:+UnlockDiagnosticVMOptions",
             "-XX:+UnlockExperimentalVMOptions",
             "-XX:ReservedCodeCacheSize=200M",
             "-XX:InitialCodeCacheSize=64M",
             "-XX:+SegmentedCodeCache",
-            // Aurora v6: lower compile threshold = JIT kicks in faster during world load
-            "-XX:CompileThreshold=500",
-            // Aurora v6: faster tier escalation (C1→C2 sooner = better steady-state FPS)
-            "-XX:Tier3InvocationThreshold=200",
-            "-XX:Tier4InvocationThreshold=3000",
-            "-XX:Tier4MinInvocationThreshold=1500",
-            // v5 JIT polish
-            "-XX:+UseFastUnorderedTimeStamps",
-            "-XX:GuaranteedSafepointInterval=0",
+            // Aurora v6: slightly lower compile threshold for faster JIT warm-up.
+            // 1000 is safe; 500 caused excessive recompilation / OOM on mid-range devices.
+            "-XX:CompileThreshold=1000",
+            // Tier escalation — conservative values that won't overwhelm low-core devices
+            "-XX:Tier3InvocationThreshold=500",
+            "-XX:Tier4InvocationThreshold=5000",
+            "-XX:Tier4MinInvocationThreshold=2500",
+            // JIT analysis (all are standard public Hotspot flags)
             "-XX:+DoEscapeAnalysis",
             "-XX:+EliminateLocks",
             "-XX:+EliminateAllocations",
             "-XX:+UseTypeSpeculation",
             "-XX:TypeProfileLevel=222",
             "-XX:OnStackReplacePercentage=140",
-            // v6: allow more inlining nodes before cut-off
-            "-XX:LiveNodeCountInliningCutoff=40000",
             // Loop optimizations — public C2 flags, supported on Hotspot 11+
             "-XX:+UseCountedLoopSafepoints",
             "-XX:LoopStripMiningIter=1000",
@@ -503,7 +503,6 @@ object FPSBoostConfig {
             "-XX:+InlineSynchronizedMethods",
             // String / allocation
             "-XX:+OptimizeStringConcat",
-            "-XX:+OptimizeFill",
             // TLAB — reduce per-thread allocation contention
             "-XX:+UseTLAB",
             "-XX:+ResizeTLAB",
@@ -523,14 +522,15 @@ object FPSBoostConfig {
             // LWJGL fast path
             "-Dorg.lwjgl.util.NoChecks=true"
             // NOTE: -XX:+AggressiveOpts removed — deleted in JDK 11, causes JVM abort on 17/21.
-            // NOTE: -XX:+UseLargePages / UseNUMA / UseNUMAInterleaving removed — require root or
-            //       kernel support not present on stock Android; harmless on desktop but adds noise.
-            // NOTE: -XX:ThreadPriorityPolicy=42 / +UseCriticalThreadPriorities removed —
-            //       non-standard values can destabilise Android's scheduler and cause ANRs.
-            // NOTE: -XX:+UseLoopPredicate removed — not a public Hotspot flag; causes JVM abort.
-            // NOTE: -XX:BackEdgeThreshold removed — Hotspot ignores it post JDK 8.
-            // NOTE: -XX:TLABSize / MinTLABSize removed — Hotspot auto-sizes TLAB correctly;
-            //       hard-coding 256K is detrimental on low-RAM devices.
+            // NOTE: -XX:+UseFastUnorderedTimeStamps removed — diagnostic flag, absent on many
+            //       Android Hotspot builds; causes JVM abort when -XX:+IgnoreUnrecognizedVMOptions
+            //       is NOT present (bootstrapping race before safety net takes effect).
+            // NOTE: -XX:GuaranteedSafepointInterval=0 removed — disables ALL safepoints; causes
+            //       JVM hangs / ANRs on concurrent GC paths (ZGC/G1) on Android.
+            // NOTE: -XX:+OptimizeFill removed — C2-only intrinsic, absent on most stripped JREs.
+            // NOTE: -XX:LiveNodeCountInliningCutoff removed from shared flags (still in Hyper+).
+            // NOTE: -XX:+UseLargePages / UseNUMA removed — require root on Android.
+            // NOTE: -XX:ThreadPriorityPolicy=42 removed — non-standard, causes ANRs.
         )
     }
 

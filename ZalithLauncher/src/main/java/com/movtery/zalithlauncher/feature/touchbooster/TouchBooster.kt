@@ -4,15 +4,16 @@ import android.os.Process
 import com.movtery.zalithlauncher.feature.log.Logging
 
 /**
- * DroidBridge Touch Booster — raises the UI thread priority to
- * THREAD_PRIORITY_URGENT_DISPLAY while the player is in-game (pointer grabbed).
+ * DroidBridge Touch Booster — raises the UI thread priority while the player
+ * is in-game (pointer grabbed) to cut input-to-render latency.
  *
- * This cuts input-to-render latency by ensuring Android's scheduler
- * gives the touch-dispatch thread a higher time slice, reducing stutter
- * and improving camera responsiveness in Minecraft 1.21+.
+ * Sensitivity (1–10, from LauncherPreferences) controls the boost strength:
+ *   1–3  → no boost (THREAD_PRIORITY_DEFAULT)
+ *   4–6  → light boost (THREAD_PRIORITY_DISPLAY)
+ *   7–10 → full boost (THREAD_PRIORITY_URGENT_DISPLAY)
  *
- * Call [boost] when the game grabs the pointer (player enters world).
- * Call [restore] when the pointer is released (menus, pause screen).
+ * Call [boost] with the current sensitivity when the game grabs the pointer.
+ * Call [restore] when the pointer is released.
  */
 object TouchBooster {
     private const val TAG = "TouchBooster"
@@ -20,13 +21,22 @@ object TouchBooster {
     @Volatile private var mBoosted = false
     @Volatile private var mSavedPriority = Process.THREAD_PRIORITY_DEFAULT
 
-    fun boost() {
+    /**
+     * Boost using a stored sensitivity level (1–10).
+     * Sensitivity ≤ 3 skips the boost entirely.
+     */
+    fun boost(sensitivity: Int = 5) {
         if (mBoosted) return
+        val targetPriority = when {
+            sensitivity <= 3 -> return
+            sensitivity <= 6 -> Process.THREAD_PRIORITY_DISPLAY
+            else             -> Process.THREAD_PRIORITY_URGENT_DISPLAY
+        }
         try {
             mSavedPriority = Process.getThreadPriority(Process.myTid())
-            Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_DISPLAY)
+            Process.setThreadPriority(targetPriority)
             mBoosted = true
-            Logging.i(TAG, "Touch thread boosted: $mSavedPriority → ${Process.THREAD_PRIORITY_URGENT_DISPLAY}")
+            Logging.i(TAG, "Touch boosted (sensitivity=$sensitivity): $mSavedPriority → $targetPriority")
         } catch (e: Exception) {
             Logging.w(TAG, "Could not boost touch thread priority", e)
         }

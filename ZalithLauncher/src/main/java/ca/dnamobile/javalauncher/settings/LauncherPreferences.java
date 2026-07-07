@@ -34,6 +34,7 @@ public final class LauncherPreferences {
     private static final String KEY_SHOW_IN_GAME_SETTINGS_BUTTON = "show_in_game_settings_button";
     private static final String KEY_ANDROID_BACK_OPENS_IN_GAME_MENU = "android_back_opens_in_game_menu";
     private static final String KEY_APP_ORIENTATION_MODE = "app_orientation_mode";
+    private static final String KEY_TOUCH_SENSITIVITY = "touch_sensitivity";
     private static final String KEY_ENABLE_SDL_CONTROLLER_MOD_COMPAT = "enable_sdl_controller_mod_compat";
     private static final String KEY_SHOW_CONTROLLER_MOD_COMPAT_WARNINGS = "show_controller_mod_compat_warnings";
     private static final String KEY_FORCE_SDL_CONTROLLER_BRIDGE = "force_sdl_controller_bridge";
@@ -43,6 +44,10 @@ public final class LauncherPreferences {
     private static final String KEY_AVOID_ROUNDED_DISPLAY_CORNERS = "avoid_rounded_display_corners";
     private static final String KEY_IGNORE_DISPLAY_CUTOUT = "ignore_display_cutout";
     private static final String KEY_LAUNCHER_THEME = "launcher_theme";
+
+    public static final int MIN_TOUCH_SENSITIVITY = 1;
+    public static final int MAX_TOUCH_SENSITIVITY = 10;
+    public static final int DEFAULT_TOUCH_SENSITIVITY = 5;
 
     public static final int MIN_GAME_RESOLUTION_SCALE_PERCENT = 25;
     public static final int MAX_GAME_RESOLUTION_SCALE_PERCENT = 200;
@@ -335,6 +340,16 @@ public final class LauncherPreferences {
         prefs(context).edit()
                 .putString(KEY_APP_ORIENTATION_MODE, normalizeAppOrientationMode(mode))
                 .commit();
+    }
+
+    public static int getTouchSensitivity(@NonNull Context context) {
+        int value = prefs(context).getInt(KEY_TOUCH_SENSITIVITY, DEFAULT_TOUCH_SENSITIVITY);
+        return Math.max(MIN_TOUCH_SENSITIVITY, Math.min(MAX_TOUCH_SENSITIVITY, value));
+    }
+
+    public static void setTouchSensitivity(@NonNull Context context, int sensitivity) {
+        int clamped = Math.max(MIN_TOUCH_SENSITIVITY, Math.min(MAX_TOUCH_SENSITIVITY, sensitivity));
+        prefs(context).edit().putInt(KEY_TOUCH_SENSITIVITY, clamped).commit();
     }
 
     @NonNull
