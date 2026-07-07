@@ -46,8 +46,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         LauncherTheme.apply(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        LauncherTheme.applyRainbowBackgroundIfNeeded(this);
+        setContentView(R.layout.activity_splash_droidbridge);
+        // Rainbow override is suppressed in the Teal Ocean dark redesign.
 
         titleText = findViewById(R.id.textTitle);
         statusText = findViewById(R.id.textStatus);

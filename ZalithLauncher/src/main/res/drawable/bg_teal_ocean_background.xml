@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Teal Ocean base background.
+    Dark Slate (#0F172A) -> deeper navy (#070E1E) diagonal gradient.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base dark slate -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#0F172A" />
+        </shape>
+    </item>
+    <!-- Diagonal navy-to-deep-slate overlay for depth -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="135"
+                android:startColor="#0C070E1E"
+                android:centerColor="#00000000"
+                android:endColor="#1A0B1525" />
+        </shape>
+    </item>
+    <!-- Subtle teal bottom-right ambient leak -->
+    <item android:left="60%" android:top="55%">
+        <shape android:shape="oval">
+            <solid android:color="#0800BFA5" />
+        </shape>
+    </item>
+</layer-list>

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Top Bar — Teal Ocean + Dark Slate (replaces old Aurora indigo palette).
-    Horizontal teal gradient, diagonal cyan shimmer, top sheen, bottom glow edge.
+    Teal Ocean Top Bar.
+    Dark slate glass with horizontal teal gradient, top highlight sheen,
+    and a bottom teal glow border for floating depth.
 -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Base teal gradient -->
+    <!-- Base dark glass body -->
     <item>
         <shape android:shape="rectangle">
             <gradient
                 android:type="linear"
                 android:angle="0"
-                android:startColor="@color/aurora_indigo_deep"
-                android:centerColor="@color/aurora_indigo"
-                android:endColor="@color/aurora_violet" />
+                android:startColor="#CC004D40"
+                android:centerColor="#CC00695C"
+                android:endColor="#CC004D40" />
         </shape>
     </item>
-    <!-- Cyan shimmer overlay -->
+    <!-- Teal shimmer overlay (diagonal) -->
     <item>
         <shape android:shape="rectangle">
             <gradient
@@ -23,25 +24,25 @@
                 android:angle="135"
                 android:startColor="#2200E5FF"
                 android:centerColor="#1100BFA5"
-                android:endColor="#00FFFFFF" />
+                android:endColor="#00000000" />
         </shape>
     </item>
-    <!-- Top highlight sheen -->
+    <!-- Top glass sheen -->
     <item>
         <shape android:shape="rectangle">
             <gradient
+                android:angle="270"
                 android:startColor="#1EFFFFFF"
-                android:endColor="#00FFFFFF"
-                android:angle="270" />
+                android:endColor="#00FFFFFF" />
         </shape>
     </item>
-    <!-- Bottom teal glow edge -->
-    <item android:top="36dp">
+    <!-- Bottom teal glow border -->
+    <item android:top="54dp">
         <shape android:shape="rectangle">
             <gradient
+                android:angle="270"
                 android:startColor="#00000000"
-                android:endColor="#4400BFA5"
-                android:angle="270" />
+                android:endColor="#5500BFA5" />
         </shape>
     </item>
 </layer-list>

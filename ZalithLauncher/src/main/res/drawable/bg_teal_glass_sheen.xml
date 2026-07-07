@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Subtle white top-sheen overlay applied on top of glass cards.
+    Gives a frosted-glass reflection effect.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:startColor="#10FFFFFF"
+        android:centerColor="#04FFFFFF"
+        android:endColor="#00FFFFFF" />
+</shape>

@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Aurora Button Normal — Teal Ocean variant.
+    3D raised look: shadow + teal gradient + glass top sheen.
+-->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Drop shadow -->
-    <item android:top="2dp" android:left="1dp">
+    <!-- Bottom shadow -->
+    <item android:top="3dp" android:left="2dp">
         <shape android:shape="rectangle">
             <corners android:radius="@dimen/_10sdp" />
-            <solid android:color="#22000000" />
+            <solid android:color="#40003D33" />
         </shape>
     </item>
-    <!-- Body -->
-    <item android:bottom="2dp" android:right="1dp">
+    <!-- Teal gradient body -->
+    <item android:bottom="3dp" android:right="2dp">
         <shape android:shape="rectangle">
             <corners android:radius="@dimen/_10sdp" />
-            <solid android:color="@color/button_background" />
+            <gradient
+                android:type="linear"
+                android:angle="135"
+                android:startColor="@color/teal_deep"
+                android:endColor="@color/teal_primary" />
             <stroke
-                android:width="0.6dp"
-                android:color="@color/aurora_outline" />
+                android:width="0.5dp"
+                android:color="@color/glass_border" />
         </shape>
     </item>
-    <!-- Glass shine -->
-    <item android:bottom="2dp" android:right="1dp">
+    <!-- Top glass sheen -->
+    <item android:bottom="3dp" android:right="2dp">
         <inset android:insetBottom="55%">
             <shape android:shape="rectangle">
                 <corners
@@ -27,7 +35,7 @@
                     android:bottomLeftRadius="0dp"
                     android:bottomRightRadius="0dp" />
                 <gradient
-                    android:startColor="#22FFFFFF"
+                    android:startColor="#20FFFFFF"
                     android:endColor="#00FFFFFF"
                     android:angle="270" />
             </shape>

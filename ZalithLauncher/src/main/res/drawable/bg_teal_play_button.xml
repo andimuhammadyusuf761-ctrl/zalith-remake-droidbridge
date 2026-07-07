@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Teal Ocean 3D Play Button.
+    Layers: deep shadow → teal gradient body → glass shine → bottom glow.
+    Press state uses ripple with teal splash.
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#5500E5FF">
+    <item>
+        <layer-list>
+            <!-- Deep shadow for 3D raise -->
+            <item android:top="4dp" android:left="3dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="18dp" />
+                    <solid android:color="#55003D33" />
+                </shape>
+            </item>
+            <!-- Main teal gradient body -->
+            <item android:bottom="4dp" android:right="3dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="18dp" />
+                    <gradient
+                        android:type="linear"
+                        android:angle="135"
+                        android:startColor="#004D40"
+                        android:centerColor="#00897B"
+                        android:endColor="#00BFA5" />
+                    <stroke
+                        android:width="1dp"
+                        android:color="#4400E5FF" />
+                </shape>
+            </item>
+            <!-- Cyan accent mid-tone sweep -->
+            <item android:bottom="4dp" android:right="3dp">
+                <shape android:shape="rectangle">
+                    <corners android:radius="18dp" />
+                    <gradient
+                        android:type="linear"
+                        android:angle="45"
+                        android:startColor="#00000000"
+                        android:centerColor="#0D00E5FF"
+                        android:endColor="#00000000" />
+                </shape>
+            </item>
+            <!-- Top glass shine (upper 40%) -->
+            <item android:bottom="4dp" android:right="3dp">
+                <inset android:insetBottom="60%">
+                    <shape android:shape="rectangle">
+                        <corners
+                            android:topLeftRadius="18dp"
+                            android:topRightRadius="18dp"
+                            android:bottomLeftRadius="0dp"
+                            android:bottomRightRadius="0dp" />
+                        <gradient
+                            android:angle="270"
+                            android:startColor="#2EFFFFFF"
+                            android:endColor="#00FFFFFF" />
+                    </shape>
+                </inset>
+            </item>
+            <!-- Bottom edge dark depth -->
+            <item android:bottom="4dp" android:right="3dp">
+                <inset android:insetTop="70%">
+                    <shape android:shape="rectangle">
+                        <corners
+                            android:topLeftRadius="0dp"
+                            android:topRightRadius="0dp"
+                            android:bottomLeftRadius="18dp"
+                            android:bottomRightRadius="18dp" />
+                        <gradient
+                            android:angle="270"
+                            android:startColor="#00000000"
+                            android:endColor="#3A000000" />
+                    </shape>
+                </inset>
+            </item>
+        </layer-list>
+    </item>
+</ripple>

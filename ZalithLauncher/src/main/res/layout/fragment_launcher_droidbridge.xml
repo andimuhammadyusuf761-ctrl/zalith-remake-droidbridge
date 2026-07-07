@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    DroidBridge-style Launcher Home Fragment.
-    Material3 card-based UI: instance list on left, play panel on right.
-    This mirrors DroidBridge Launcher's instance-centric home screen.
+    DroidBridge Launcher Home — Teal Ocean + Dark Slate redesign.
+    Layout: floating glass top bar, instance list (left), hero play panel (right),
+    bottom navigation rail. Every surface uses glass depth + teal glow tokens.
 -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,20 +10,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
+    android:background="@drawable/bg_teal_ocean_background"
     tools:ignore="ContentDescription">
 
-    <!-- Top content scrim (gradient from surface to transparent downward) -->
+    <!-- ── Ambient radial glow behind the play panel ── -->
     <View
-        android:id="@+id/mainTopScrim"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_gravity="top"
-        android:background="@drawable/bg_main_top_content_scrim"
+        android:id="@+id/ambientGlow"
+        android:layout_width="360dp"
+        android:layout_height="360dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="-60dp"
+        android:background="@drawable/bg_teal_ambient_glow"
         android:clickable="false"
         android:focusable="false" />
 
-    <!-- Floating top bar (DroidBridge-style pill card) -->
+    <!-- ── Floating Glass Top Bar ── -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardTopBar"
         android:layout_width="match_parent"
@@ -32,11 +33,19 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="12dp"
-        app:cardBackgroundColor="?attr/colorSurface"
-        app:cardCornerRadius="22dp"
-        app:cardElevation="0dp"
-        app:strokeColor="?attr/colorOutlineVariant"
+        app:cardBackgroundColor="@color/slate_glass"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp"
+        app:strokeColor="@color/glass_border_strong"
         app:strokeWidth="1dp">
+
+        <!-- Top glass sheen overlay -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_teal_glass_sheen"
+            android:clickable="false"
+            android:focusable="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,10 +54,16 @@
             android:orientation="horizontal"
             android:paddingStart="16dp"
             android:paddingTop="10dp"
-            android:paddingEnd="10dp"
+            android:paddingEnd="8dp"
             android:paddingBottom="10dp">
 
-            <!-- App / Launcher name -->
+            <!-- Teal dot accent + app name -->
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_teal_dot_pulse" />
+
             <TextView
                 android:id="@+id/db_app_title"
                 android:layout_width="0dp"
@@ -56,19 +71,23 @@
                 android:layout_weight="1"
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textColor="@color/primary_text"
                 android:textStyle="bold" />
 
-            <!-- FPS Boost chip -->
+            <!-- FPS Boost chip — teal -->
             <com.google.android.material.chip.Chip
                 android:id="@+id/db_fps_boost_chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
                 android:text="FPS BOOST"
-                app:chipBackgroundColor="@color/aurora_indigo"
-                app:chipMinHeight="28dp"
                 android:textColor="#FFFFFF"
                 android:textSize="10sp"
                 android:textStyle="bold"
+                app:chipBackgroundColor="@color/teal_deep"
+                app:chipMinHeight="28dp"
+                app:chipStrokeColor="@color/teal_bright"
+                app:chipStrokeWidth="1dp"
                 app:closeIconVisible="false" />
 
             <!-- Settings button -->
@@ -77,26 +96,27 @@
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="2dp"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:padding="0dp"
                 android:text=""
                 app:icon="@drawable/ic_menu_settings"
                 app:iconGravity="textStart"
-                app:iconPadding="0dp" />
+                app:iconPadding="0dp"
+                app:iconTint="@color/teal_primary" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Main content: instance list (left) + play panel (right) -->
+    <!-- ── Main content: instance list (left) + play panel (right) ── -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:paddingTop="72dp"
-        android:paddingBottom="0dp">
+        android:paddingTop="74dp"
+        android:paddingBottom="4dp">
 
-        <!-- LEFT: Instance list -->
+        <!-- LEFT: Instance list panel -->
         <LinearLayout
             android:id="@+id/db_instance_panel"
             android:layout_width="0dp"
@@ -107,7 +127,7 @@
             android:paddingEnd="6dp"
             android:paddingBottom="12dp">
 
-            <!-- Section header -->
+            <!-- Section header row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,17 +141,21 @@
                     android:layout_weight="1"
                     android:text="Instances"
                     android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                    android:textColor="@color/cyan_bright"
                     android:textStyle="bold" />
 
-                <!-- Mods button -->
+                <!-- Mods quick-access button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/db_mods_button"
-                    style="@style/Widget.Material3.Button.TextButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:text="Mods"
-                    app:icon="@drawable/ic_download" />
+                    android:textColor="@color/teal_primary"
+                    app:icon="@drawable/ic_download"
+                    app:iconTint="@color/teal_primary"
+                    app:strokeColor="@color/glass_border_strong" />
 
                 <!-- New instance button -->
                 <com.google.android.material.button.MaterialButton
@@ -140,10 +164,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New"
-                    app:icon="@drawable/ic_add" />
+                    android:textColor="@color/teal_primary"
+                    app:icon="@drawable/ic_add"
+                    app:iconTint="@color/teal_primary"
+                    app:strokeColor="@color/glass_border_strong" />
             </LinearLayout>
 
-            <!-- Instance list -->
+            <!-- Instance RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/db_instance_list"
                 android:layout_width="match_parent"
@@ -154,27 +181,65 @@
 
         </LinearLayout>
 
-        <!-- RIGHT: Play panel -->
+        <!-- RIGHT: Hero Play panel -->
         <LinearLayout
             android:id="@+id/db_play_panel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="bottom"
+            android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingStart="6dp"
             android:paddingEnd="12dp"
             android:paddingBottom="16dp">
 
-            <!-- Account card -->
+            <!-- Hero Play Orb container -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center">
+
+                <!-- Ambient orb glow ring (behind button) -->
+                <View
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_teal_orb_glow"
+                    android:clickable="false"
+                    android:focusable="false" />
+
+                <!-- The big 3D PLAY button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/db_play_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:letterSpacing="0.15"
+                    android:text="▶  PLAY"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@null"
+                    app:cornerRadius="18dp"
+                    app:rippleColor="@color/background_ripple_effect"
+                    style="@style/Widget.Material3.Button.ElevatedButton"
+                    android:background="@drawable/bg_teal_play_button" />
+
+            </FrameLayout>
+
+            <!-- Account glass card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/db_account_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutlineVariant"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="@color/glass_surface"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="8dp"
+                app:strokeColor="@color/glass_border"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -184,19 +249,31 @@
                     android:orientation="horizontal"
                     android:padding="12dp">
 
-                    <ImageView
-                        android:id="@+id/db_player_head"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:contentDescription="@string/main_player_head_signed_out"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_account" />
+                    <!-- Player head with teal ring -->
+                    <FrameLayout
+                        android:layout_width="44dp"
+                        android:layout_height="44dp">
+
+                        <View
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_teal_avatar_ring" />
+
+                        <ImageView
+                            android:id="@+id/db_player_head"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/main_player_head_signed_out"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_account" />
+                    </FrameLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginStart="10dp"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
@@ -205,6 +282,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/status_signed_out"
                             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                            android:textColor="@color/primary_text"
                             android:textStyle="bold" />
 
                         <TextView
@@ -212,7 +290,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tap to sign in"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                            android:textColor="@color/cyan_bright" />
                     </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
@@ -221,19 +300,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Account"
-                        app:icon="@drawable/ic_aurora_arrow_down" />
+                        android:textColor="@color/teal_primary"
+                        app:icon="@drawable/ic_aurora_arrow_down"
+                        app:iconTint="@color/teal_primary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Selected version card -->
+            <!-- Selected version glass card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/db_version_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:strokeColor="?attr/colorOutlineVariant"
+                app:cardBackgroundColor="@color/glass_surface"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="8dp"
+                app:strokeColor="@color/glass_border"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -243,19 +324,31 @@
                     android:orientation="horizontal"
                     android:padding="14dp">
 
-                    <ImageView
-                        android:id="@+id/db_version_icon"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_instance_vanilla_24"
-                        android:contentDescription="Version" />
+                    <!-- Version icon with teal tint bg -->
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_teal_icon_bg" />
+
+                        <ImageView
+                            android:id="@+id/db_version_icon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="Version"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_instance_vanilla_24" />
+                    </FrameLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginStart="12dp"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
@@ -264,6 +357,7 @@
                             android:layout_height="wrap_content"
                             android:text="No version selected"
                             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                            android:textColor="@color/primary_text"
                             android:textStyle="bold" />
 
                         <TextView
@@ -271,7 +365,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tap an instance to select"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                            android:textColor="@color/cyan_bright" />
                     </LinearLayout>
 
                     <ImageButton
@@ -280,33 +375,64 @@
                         android:layout_height="36dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="Pick version"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/ic_arrow_drop_down_24"
-                        android:scaleType="fitCenter" />
+                        android:tint="@color/teal_primary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- PLAY button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/db_play_button"
+            <!-- Quick-action row: Versions · Mods · Servers -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="PLAY"
-                android:textStyle="bold"
-                android:letterSpacing="0.1"
-                android:textSize="16sp"
-                app:backgroundTint="@color/aurora_indigo"
-                app:cornerRadius="16dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/db_quick_versions"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Versions"
+                    android:textColor="@color/teal_primary"
+                    app:icon="@drawable/ic_instance_vanilla_24"
+                    app:iconTint="@color/teal_primary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/db_quick_mods"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Mods"
+                    android:textColor="@color/cyan_primary"
+                    app:icon="@drawable/ic_download"
+                    app:iconTint="@color/cyan_primary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/db_quick_settings"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Settings"
+                    android:textColor="@color/slate_600"
+                    app:icon="@drawable/ic_menu_settings"
+                    app:iconTint="@color/slate_600" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Bottom scrim -->
+    <!-- Bottom scrim — slate fade up -->
     <View
         android:id="@+id/mainBottomScrim"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="56dp"
         android:layout_gravity="bottom"
-        android:background="@drawable/bg_main_bottom_content_scrim"
+        android:background="@drawable/bg_teal_bottom_scrim"
         android:clickable="false"
         android:focusable="false" />
 

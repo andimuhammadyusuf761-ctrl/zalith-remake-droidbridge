@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    DroidBridge Fragment Host — Teal Ocean + Dark Slate.
+    Glass toolbar with teal gradient, dark slate body.
+-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:attr/colorBackground">
+    android:background="@drawable/bg_teal_ocean_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="4dp">
+        android:background="@drawable/bg_teal_top_bar"
+        android:elevation="0dp"
+        app:liftOnScroll="false">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/dbHostToolbar"
@@ -18,7 +24,9 @@
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back_24"
             app:navigationContentDescription="Back"
-            app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium" />
+            app:navigationIconTint="@color/primary_text"
+            app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:titleTextColor="@color/primary_text" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

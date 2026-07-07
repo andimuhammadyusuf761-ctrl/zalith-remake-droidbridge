@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Aurora Play Button (v3 GUI):
-    - Multi-stop indigo -> violet -> cyan -> pink gradient sweep
-    - Soft drop shadow for elevation
-    - Inner top highlight for glass shine
-    - Subtle bottom highlight on the lower edge for depth
+    Aurora Play Button — Teal Ocean variant (replaces old indigo→violet→cyan).
+    Layers: shadow → teal gradient body → glass shine → bottom depth.
 -->
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#55FFFFFF">
+    android:color="#5500E5FF">
     <item>
         <layer-list>
-            <!-- Drop shadow / depth -->
+            <!-- Deep shadow for 3D raise -->
             <item android:top="3dp" android:left="2dp">
                 <shape android:shape="rectangle">
                     <corners android:radius="@dimen/_16sdp" />
                     <solid android:color="#55000000" />
                 </shape>
             </item>
-            <!-- Main aurora gradient body -->
+            <!-- Teal gradient body -->
             <item android:bottom="3dp" android:right="2dp">
                 <shape android:shape="rectangle">
                     <corners android:radius="@dimen/_16sdp" />
                     <gradient
                         android:type="linear"
                         android:angle="135"
-                        android:startColor="@color/aurora_indigo"
-                        android:centerColor="@color/aurora_violet"
+                        android:startColor="@color/aurora_indigo_deep"
+                        android:centerColor="@color/aurora_indigo"
                         android:endColor="@color/aurora_cyan" />
                     <stroke
                         android:width="0.6dp"
@@ -42,13 +39,13 @@
                             android:bottomLeftRadius="0dp"
                             android:bottomRightRadius="0dp" />
                         <gradient
-                            android:startColor="#33FFFFFF"
+                            android:startColor="#2EFFFFFF"
                             android:endColor="#00FFFFFF"
                             android:angle="270" />
                     </shape>
                 </inset>
             </item>
-            <!-- Bottom edge dark glow for 3D depth -->
+            <!-- Bottom depth -->
             <item android:bottom="3dp" android:right="2dp">
                 <inset android:insetTop="65%">
                     <shape android:shape="rectangle">

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Teal avatar ring — circular border with teal glow around the player head.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer glow -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#2200BFA5" />
+        </shape>
+    </item>
+    <!-- Teal ring border -->
+    <item android:top="2dp" android:left="2dp" android:right="2dp" android:bottom="2dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/slate_800" />
+            <stroke
+                android:width="1.5dp"
+                android:color="@color/teal_primary" />
+        </shape>
+    </item>
+</layer-list>

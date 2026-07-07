@@ -1,47 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    DroidBridge-style splash screen layout.
-    Used by ca.dnamobile.javalauncher.SplashActivity during first-run setup.
+    DroidBridge Splash — Teal Ocean + Dark Slate.
+    Full-dark background, glowing icon, teal progress indicator.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="32dp"
-    android:background="?android:attr/colorBackground">
+    android:background="@drawable/bg_teal_ocean_background">
 
-    <ImageView
-        android:id="@+id/splashIcon"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:contentDescription="@string/app_name"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher_droidbridge" />
+    <!-- Glow ring behind icon -->
+    <FrameLayout
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:gravity="center">
 
+        <!-- Outer teal glow halo -->
+        <View
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_teal_splash_orb"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <!-- App icon -->
+        <ImageView
+            android:id="@+id/splashIcon"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher_droidbridge" />
+    </FrameLayout>
+
+    <!-- App name — bright white -->
     <TextView
         android:id="@+id/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+        android:textColor="@color/primary_text"
         android:textStyle="bold" />
 
+    <!-- Status text — soft cyan -->
     <TextView
         android:id="@+id/textStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Setting up…"
-        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textColor="@color/cyan_bright" />
 
+    <!-- Teal progress bar -->
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/splashProgress"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:indeterminate="true" />
+        android:layout_marginTop="28dp"
+        android:indeterminate="true"
+        app:indicatorColor="@color/teal_primary"
+        app:trackColor="@color/slate_700" />
 
 </LinearLayout>

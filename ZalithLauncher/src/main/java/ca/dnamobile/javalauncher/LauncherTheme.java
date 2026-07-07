@@ -23,9 +23,9 @@ public final class LauncherTheme {
 
     /** Apply the launcher theme to an activity before setContentView. */
     public static void apply(Activity activity) {
-        // Zalith uses AppTheme by default; DroidBridge themes are applied here
-        // via SharedPreferences. Currently delegates to the base Zalith AppTheme.
-        activity.setTheme(R.style.AppTheme);
+        // Apply the DroidBridge dark Teal Ocean theme. This overrides the old
+        // Zalith Aurora light theme for all DroidBridge-namespaced activities.
+        activity.setTheme(R.style.DroidBridgeSettingsTheme);
     }
 
     /** Apply a rainbow animated background if the rainbow theme is active. */
