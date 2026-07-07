@@ -425,6 +425,26 @@ object FPSBoostConfig {
     }
 
     /**
+     * Ultra FPS Mode preset — used by the Performance Center's ULTRA_FPS preset.
+     *
+     * Combines Hyper+ JVM tuning (for Java 21 / MC 1.21+) with the adaptive
+     * device tier overlay so the JVM args are correctly scaled to the hardware.
+     *
+     * For Java 17 / MC < 1.21, falls back to the Ultra (1.20-1.21) profile
+     * with the HIGH-tier overlay applied.
+     */
+    fun getUltraFpsModeProfile(context: Context, versionName: String): BoostProfile {
+        val tier = detectDeviceTier(context)
+        val ver  = parseVersion(versionName)
+        return if (ver.first >= 21) {
+            withCommonAuroraFlags(getHyperProfile(tier))
+        } else {
+            val base = getUltraProfile()
+            overlayDeviceTier(withCommonAuroraFlags(base), tier)
+        }
+    }
+
+    /**
      * Common performance JVM flags (fallback when no version detected)
      */
     fun getCommonJvmFlags(): List<String> {

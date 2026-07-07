@@ -184,6 +184,15 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensorLandscape" />
 
+        <!-- DroidBridge Performance Center -->
+        <activity
+            android:name="ca.dnamobile.javalauncher.performance.PerformanceCenterActivity"
+            android:exported="false"
+            android:theme="@style/DroidBridgeSettingsTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="adjustResize" />
+
         <provider
             android:name="ca.dnamobile.javalauncher.storage.JavaLauncherDocumentsProvider"
             android:authorities="${applicationId}.droidbridge_documents"
