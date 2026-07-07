@@ -40,6 +40,7 @@ import java.util.List;
 
 import ca.dnamobile.javalauncher.instance.LauncherInstance;
 import ca.dnamobile.javalauncher.ui.instance.LauncherInstanceAdapter;
+import ca.dnamobile.javalauncher.utils.OrientationUtils;
 
 /**
  * DroidBridge-style home screen. This replaces Zalith's original fragment-based
@@ -61,6 +62,7 @@ public final class LauncherHomeActivity extends AppCompatActivity implements Lau
 
         binding = FragmentLauncherDroidbridgeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        OrientationUtils.apply(this);
 
         adapter = new LauncherInstanceAdapter(this, this);
         binding.dbInstanceList.setLayoutManager(new LinearLayoutManager(this));
@@ -72,6 +74,9 @@ public final class LauncherHomeActivity extends AppCompatActivity implements Lau
         binding.dbAccountButton.setOnClickListener(v -> openAccountManagement());
 
         binding.dbNewInstanceButton.setOnClickListener(v -> openInstanceInstall());
+
+        binding.dbModsButton.setOnClickListener(v ->
+                startActivity(DroidBridgeFragmentHostActivity.intentFor(this, DroidBridgeFragmentHostActivity.FRAGMENT_MODS)));
 
         binding.dbVersionPickerButton.setOnClickListener(v -> showVersionPicker());
 

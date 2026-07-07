@@ -77,6 +77,7 @@ import ca.dnamobile.javalauncher.skin.SkinModelType;
 import ca.dnamobile.javalauncher.update.LauncherUpdateDialogs;
 import ca.dnamobile.javalauncher.update.LauncherUpdatePreferences;
 import ca.dnamobile.javalauncher.utils.FullscreenUtils;
+import ca.dnamobile.javalauncher.utils.OrientationUtils;
 import ca.dnamobile.javalauncher.utils.path.PathManager;
 import com.movtery.zalithlauncher.R;
 
@@ -111,6 +112,7 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
         PathManager.initContextConstants(this);
         binding = ActivityLauncherSettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        OrientationUtils.apply(this);
         FullscreenUtils.enableImmersive(this);
 
         binding.buttonSettingsBack.setOnClickListener(view -> finish());
@@ -1161,7 +1163,31 @@ public final class LauncherSettingsActivity extends AppCompatActivity {
                 .show();
     }
 
+    private void setupOrientationSettings() {
+        String currentMode = LauncherPreferences.getAppOrientationMode(this);
+        if (LauncherPreferences.APP_ORIENTATION_LANDSCAPE.equals(currentMode)) {
+            binding.radioOrientationLandscape.setChecked(true);
+        } else if (LauncherPreferences.APP_ORIENTATION_PORTRAIT.equals(currentMode)) {
+            binding.radioOrientationPortrait.setChecked(true);
+        } else {
+            binding.radioOrientationAuto.setChecked(true);
+        }
+        binding.radioGroupOrientation.setOnCheckedChangeListener((group, checkedId) -> {
+            String mode;
+            if (checkedId == R.id.radioOrientationLandscape) {
+                mode = LauncherPreferences.APP_ORIENTATION_LANDSCAPE;
+            } else if (checkedId == R.id.radioOrientationPortrait) {
+                mode = LauncherPreferences.APP_ORIENTATION_PORTRAIT;
+            } else {
+                mode = LauncherPreferences.APP_ORIENTATION_AUTO;
+            }
+            LauncherPreferences.setAppOrientationMode(this, mode);
+            OrientationUtils.apply(this, mode);
+        });
+    }
+
     private void setupLauncherSettings() {
+        setupOrientationSettings();
         setupMemorySettings();
         setupInstallNotificationSettings();
         setupSimpleVoiceChatSettings();

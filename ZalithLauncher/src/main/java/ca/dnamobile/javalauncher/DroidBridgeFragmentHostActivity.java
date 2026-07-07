@@ -49,6 +49,9 @@ public final class DroidBridgeFragmentHostActivity extends AppCompatActivity {
     /** Fragment target: Custom mouse cursor icon picker. */
     public static final String FRAGMENT_CUSTOM_MOUSE = "custom_mouse";
 
+    /** Fragment target: Mod manager / mod browser. */
+    public static final String FRAGMENT_MODS = "mods";
+
     /**
      * Builds a ready-to-use Intent that opens this activity showing the given fragment.
      *
@@ -79,6 +82,9 @@ public final class DroidBridgeFragmentHostActivity extends AppCompatActivity {
         if (FRAGMENT_CUSTOM_MOUSE.equals(fragmentTarget)) {
             title = "Mouse Cursor Icon";
             fragment = new CustomMouseFragment();
+        } else if (FRAGMENT_MODS.equals(fragmentTarget)) {
+            title = "Mod Manager";
+            fragment = new DownloadModFragment();
         } else {
             // Default: version / modpack installer
             title = getString(R.string.version_install_new);
