@@ -45,7 +45,6 @@ import com.movtery.zalithlauncher.databinding.ViewGameMenuBinding;
 import com.movtery.zalithlauncher.event.single.RefreshHotbarEvent;
 import com.movtery.zalithlauncher.event.value.HotbarChangeEvent;
 import com.movtery.zalithlauncher.feature.MCOptions;
-import com.movtery.zalithlauncher.feature.sound.SoundManager;
 import com.movtery.zalithlauncher.feature.ProfileLanguageSelector;
 import com.movtery.zalithlauncher.feature.background.BackgroundManager;
 import com.movtery.zalithlauncher.feature.background.BackgroundType;
@@ -128,8 +127,6 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         if (AllSettings.getAutoSetGameLanguage().getValue()) {
             ProfileLanguageSelector.setGameLanguage(minecraftVersion, AllSettings.getGameLanguageOverridden().getValue());
         }
-        SoundManager.initialize(this);
-
         Intent gameServiceIntent = new Intent(this, GameService.class);
         // Start the service a bit early
         ContextCompat.startForegroundService(this, gameServiceIntent);
@@ -343,7 +340,6 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         mMenuSettingsInitListener.closeSpinner();
         CallbackBridge.removeGrabListener(binding.mainTouchpad);
         CallbackBridge.removeGrabListener(binding.mainGameRenderView);
-        SoundManager.release();
         getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
         ContextExecutor.clearActivity();
     }

@@ -49,24 +49,6 @@ class ExperimentalSettingsFragment :
             binding.autoModCrashRecovery
         )
 
-        SwitchSettingsWrapper(
-            context,
-            AllSettings.inputSoundEnabled,
-            binding.inputSoundEnabledLayout,
-            binding.inputSoundEnabled
-        )
-
-        SeekBarSettingsWrapper(
-            context,
-            AllSettings.inputSoundVolume,
-            binding.inputSoundVolumeLayout,
-            binding.inputSoundVolumeTitle,
-            binding.inputSoundVolumeSummary,
-            binding.inputSoundVolumeValue,
-            binding.inputSoundVolume,
-            "%"
-        )
-
         SeekBarSettingsWrapper(
             context,
             AllSettings.tcVibrateDuration,

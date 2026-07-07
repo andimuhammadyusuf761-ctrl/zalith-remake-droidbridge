@@ -92,27 +92,6 @@ class AllSettings {
         @JvmStatic
         val deadZoneScale = IntSettingUnit("gamepad_deadzone_scale", 100)
 
-        @JvmStatic
-        val inputSoundEnabled = BooleanSettingUnit("inputSoundEnabled", true)
-
-        @JvmStatic
-        val inputSoundVolume = IntSettingUnit("inputSoundVolume", 45)
-
-        @JvmStatic
-        val inputSoundKeyboard = BooleanSettingUnit("inputSoundKeyboard", true)
-
-        @JvmStatic
-        val inputSoundMouse = BooleanSettingUnit("inputSoundMouse", true)
-
-        @JvmStatic
-        val inputSoundUi = BooleanSettingUnit("inputSoundUi", false)
-
-        @JvmStatic
-        val inputSoundHaptics = BooleanSettingUnit("inputSoundHaptics", true)
-
-        @JvmStatic
-        val inputSoundRespectSilent = BooleanSettingUnit("inputSoundRespectSilent", true)
-
         // Game
         @JvmStatic
         val versionIsolation = BooleanSettingUnit("versionIsolation", true)

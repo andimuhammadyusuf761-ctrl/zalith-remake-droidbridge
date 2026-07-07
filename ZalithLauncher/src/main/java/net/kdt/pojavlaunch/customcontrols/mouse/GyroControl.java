@@ -10,7 +10,6 @@ import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import com.movtery.zalithlauncher.feature.sound.SoundManager;
 import com.movtery.zalithlauncher.setting.AllSettings;
 import com.movtery.zalithlauncher.setting.AllStaticSettings;
 
@@ -99,10 +98,6 @@ public class GyroControl implements SensorEventListener, GrabListener {
         mCorrectionListener.enable();
         mShouldHandleEvents = CallbackBridge.isGrabbing();
         CallbackBridge.addGrabListener(this);
-        
-        // DroidBridge: Play activation sound and haptic feedback
-        SoundManager.playGyroActivate();
-        SoundManager.hapticOnly(true);
         
         // Reset prediction buffer
         mPredictionIndex = 0;

@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.movtery.zalithlauncher.R;
 import com.movtery.zalithlauncher.feature.macro.MacroEngine;
-import com.movtery.zalithlauncher.feature.sound.SoundManager;
 import com.movtery.zalithlauncher.feature.macro.MacroStore;
 import com.movtery.zalithlauncher.setting.AllSettings;
 
@@ -149,11 +148,6 @@ public class ControlButton extends TextView implements ControlInterface {
 
             case MotionEvent.ACTION_DOWN: // 0
             case MotionEvent.ACTION_POINTER_DOWN: // 5
-                // DroidBridge: Enhanced touch feedback on press
-                if (AllSettings.getInputSoundEnabled().getValue()) {
-                    SoundManager.touchFeedbackComplete(event.getX(), event.getY(), 
-                        getProperties().isToggle || getProperties().keycodes.length > 1);
-                }
                 if(!getProperties().isToggle){
                     sendKeyPresses(true);
                 }
@@ -162,10 +156,6 @@ public class ControlButton extends TextView implements ControlInterface {
             case MotionEvent.ACTION_UP: // 1
             case MotionEvent.ACTION_CANCEL: // 3
             case MotionEvent.ACTION_POINTER_UP: // 6
-                // DroidBridge: Touch up sound for release feedback
-                if (AllSettings.getInputSoundEnabled().getValue()) {
-                    SoundManager.playTouchUp();
-                }
                 if(getProperties().passThruEnabled){
                     View gameSurface = getControlLayoutParent().getGameSurface();
                     if(gameSurface != null) gameSurface.dispatchTouchEvent(event);
@@ -203,7 +193,6 @@ public class ControlButton extends TextView implements ControlInterface {
         setActivated(isDown);
         for(int keycode : mProperties.keycodes){
             if(keycode >= GLFW_KEY_UNKNOWN){
-                if(isDown) SoundManager.playKey(keycode);
                 sendKeyPress(keycode, CallbackBridge.getCurrentMods(), isDown);
                 CallbackBridge.setModifiers(keycode, isDown);
             }else{
@@ -227,32 +216,23 @@ public class ControlButton extends TextView implements ControlInterface {
                 break;
 
             case ControlData.SPECIALBTN_MOUSEPRI:
-                if(isDown) SoundManager.playMouse(LwjglGlfwKeycode.GLFW_MOUSE_BUTTON_LEFT);
                 sendMouseButton(LwjglGlfwKeycode.GLFW_MOUSE_BUTTON_LEFT, isDown);
                 break;
 
             case ControlData.SPECIALBTN_MOUSEMID:
-                if(isDown) SoundManager.playMouse(LwjglGlfwKeycode.GLFW_MOUSE_BUTTON_MIDDLE);
                 sendMouseButton(LwjglGlfwKeycode.GLFW_MOUSE_BUTTON_MIDDLE, isDown);
                 break;
 
             case ControlData.SPECIALBTN_MOUSESEC:
-                if(isDown) SoundManager.playMouse(LwjglGlfwKeycode.GLFW_MOUSE_BUTTON_RIGHT);
                 sendMouseButton(LwjglGlfwKeycode.GLFW_MOUSE_BUTTON_RIGHT, isDown);
                 break;
 
             case ControlData.SPECIALBTN_SCROLLDOWN:
-                if (!isDown) {
-                    SoundManager.playScroll();
-                    CallbackBridge.sendScroll(0, 1d);
-                }
+                if (!isDown) CallbackBridge.sendScroll(0, 1d);
                 break;
 
             case ControlData.SPECIALBTN_SCROLLUP:
-                if (!isDown) {
-                    SoundManager.playScroll();
-                    CallbackBridge.sendScroll(0, -1d);
-                }
+                if (!isDown) CallbackBridge.sendScroll(0, -1d);
                 break;
             case ControlData.SPECIALBTN_MENU:
                 mControlLayout.notifyAppMenu();
