@@ -21,10 +21,16 @@
                 android:endColor="#1A0B1525" />
         </shape>
     </item>
-    <!-- Subtle teal bottom-right ambient leak -->
-    <item android:left="60%" android:top="55%">
-        <shape android:shape="oval">
-            <solid android:color="#0800BFA5" />
+    <!-- Subtle teal bottom-right ambient leak (radial gradient, no % insets) -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="300dp"
+                android:centerX="0.85"
+                android:centerY="0.80"
+                android:startColor="#0800BFA5"
+                android:endColor="#00000000" />
         </shape>
     </item>
 </layer-list>
