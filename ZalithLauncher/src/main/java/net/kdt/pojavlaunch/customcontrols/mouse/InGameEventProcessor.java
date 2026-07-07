@@ -29,7 +29,7 @@ public class InGameEventProcessor implements TouchEventProcessor {
         switch (motionEvent.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 mTracker.startTracking(motionEvent);
-                TouchBooster.INSTANCE.boost();
+                TouchBooster.INSTANCE.boost(5);
                 if (AllSettings.getDisableGestures().getValue()) break;
                 mEventTransitioned = false;
                 checkGestures();

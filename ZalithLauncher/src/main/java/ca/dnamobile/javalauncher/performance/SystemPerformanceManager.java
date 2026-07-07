@@ -51,19 +51,10 @@ public final class SystemPerformanceManager {
         try {
             // URGENT_DISPLAY = -8; scheduler heavily favours big cores.
             Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_DISPLAY);
-
-            // On API 28+ we can also boost the whole process cgroup.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                android.os.Process.setProcessGroup(
-                    android.os.Process.myPid(),
-                    android.os.Process.THREAD_GROUP_TOP_APP
-                );
-            }
-
             Logging.i(TAG, "Big-core affinity applied (tid=" + Process.myTid() + ")");
         } catch (Throwable t) {
-            // setThreadPriority throws SecurityException if the caller lacks
-            // MODIFY_AUDIO_SETTINGS — catch broadly so launch never aborts.
+            // setThreadPriority throws SecurityException on some ROMs — catch
+            // broadly so launch never aborts.
             Logging.w(TAG, "Big-core affinity failed (non-fatal): " + t.getMessage());
         }
     }
@@ -75,13 +66,6 @@ public final class SystemPerformanceManager {
     public static void restoreNormalPriority() {
         try {
             Process.setThreadPriority(Process.THREAD_PRIORITY_DEFAULT);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                android.os.Process.setProcessGroup(
-                    android.os.Process.myPid(),
-                    android.os.Process.THREAD_GROUP_DEFAULT
-                );
-            }
             Logging.i(TAG, "Thread priority restored to DEFAULT");
         } catch (Throwable t) {
             Logging.w(TAG, "Priority restore failed (non-fatal): " + t.getMessage());
@@ -146,12 +130,14 @@ public final class SystemPerformanceManager {
      */
     public static void trimMemoryBeforeLaunch(@NonNull Context ctx) {
         try {
-            // Broadcast trim signal so all registered ComponentCallbacks2 in the
-            // launcher process release their caches (image caches, etc.).
-            ctx.getApplicationContext()
-               .onTrimMemory(ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL);
+            // Application implements ComponentCallbacks2 — cast so we can call
+            // onTrimMemory(), which signals all registered callbacks in the process
+            // (image caches etc.) to release their caches before the game loads.
+            android.app.Application app =
+                (android.app.Application) ctx.getApplicationContext();
+            app.onTrimMemory(ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL);
 
-            // Give the system a GC pass.
+            // Follow up with an explicit GC pass.
             System.gc();
             Runtime.getRuntime().runFinalization();
             System.gc();
@@ -181,12 +167,9 @@ public final class SystemPerformanceManager {
      */
     public static void yieldToGameProcess() {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                android.os.Process.setProcessGroup(
-                    android.os.Process.myPid(),
-                    android.os.Process.THREAD_GROUP_BACKGROUND
-                );
-            }
+            // THREAD_PRIORITY_BACKGROUND = 10; gives up scheduler slices to the
+            // Minecraft child process. setProcessGroup uses hidden APIs so we skip
+            // it and rely on thread priority alone.
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
             Logging.i(TAG, "Launcher yielded to game process");
         } catch (Throwable t) {
